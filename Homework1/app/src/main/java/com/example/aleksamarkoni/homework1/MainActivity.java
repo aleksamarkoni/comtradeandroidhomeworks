@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //TODO create variable and use findViewById to assign the TextView to it. That TextView should show the current state of the counter.
-        TextView countTextView = findViewById(R.id.counter_text_view);
+        TextView countTextView = findViewById(R.id.counter_text);
 
         //TODO Create a variable that will point to the increment button
         //TODO use findViewById to fill that variable so it points to the Increment button
