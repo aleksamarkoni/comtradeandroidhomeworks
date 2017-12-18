@@ -9,6 +9,11 @@
 
 
     <!-- TODO Insert xml code to display Increment button here -->
+    <Button
+        android:id="@+id/increment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Increment"/>
 
     <!-- TODO Change this text view, so we display counter information inside -->
     <TextView
