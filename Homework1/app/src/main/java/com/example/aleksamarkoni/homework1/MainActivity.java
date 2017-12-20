@@ -1,13 +1,20 @@
 package com.example.aleksamarkoni.homework1;
 
+import android.content.SharedPreferences;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String COUNTER_KEY = "counter_bundle_key";
+    private static final String PREFERENCE_FILE_NAME = "preference_file";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private int counter = 0;
     private TextView counterTextView;
@@ -18,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_FILE_NAME, 0);
+        counter = sharedPreferences.getInt(COUNTER_KEY, 0);
 
         counterTextView = findViewById(R.id.counter_text_view);
         updateCounterTextView();
@@ -56,10 +66,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_FILE_NAME, 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(COUNTER_KEY, counter);
+        editor.apply();
     }
 
     private void updateCounterTextView() {
         counterTextView.setText("" + counter);
     }
+
+
 }
