@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- TODO Change this so we use LinearLayout -->
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +9,8 @@
 
 
     <!-- TODO Insert xml code to display Increment button here -->
+
+    <Button />
 
     <!-- TODO Change this text view, so we display counter information inside -->
     <TextView
@@ -22,4 +24,4 @@
 
     <!-- TODO Insert xml code to display Decrement button here -->
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
