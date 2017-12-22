@@ -19,6 +19,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     public MoviesAdapter(Context context, List<Movie> movieList) {
         this.movieList = movieList;
+        this.context = context;
     }
 
     @Override
@@ -33,8 +34,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         holder.title.setText(movie.getMovieName());
         holder.genre.setText(movie.getMovieGenre());
         holder.year.setText(movie.getYear());
-        Glide.with(context)
+        GlideApp.with(holder.moviePoster.getContext())
                 .load(movie.getMoviePosterUrl())
+                .centerCrop()
                 .into(holder.moviePoster);
     }
 
