@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new MoviesAdapter(movieList));
+        recyclerView.setAdapter(new MoviesAdapter(this, movieList));
     }
 
     private void populateMovieList() {
