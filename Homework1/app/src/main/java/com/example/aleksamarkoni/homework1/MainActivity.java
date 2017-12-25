@@ -7,6 +7,8 @@ public class MainActivity extends AppCompatActivity {
 
     //TODO create the int counter variable that will store the current counter state
 
+    private counter = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

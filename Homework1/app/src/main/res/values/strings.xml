@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Homework1</string>
+    <string name="increment">Increment</string>
+    <string name="decrement_button">decrement button</string>
 </resources>
