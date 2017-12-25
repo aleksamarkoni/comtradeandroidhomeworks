@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
         listOfCars.add(auto);
         auto = new Auto("Honda", "bg-1169-nt", 50, 4);
         listOfCars.add(auto);
+        auto = new Auto("Suzuki", "ko-002-sn", 77,5);
+        listOfCars.add(auto);
+        auto = new Auto("Audi","bg-321-kk",90,2);
 
         auto = new Auto("Fica", "kv-232-jj", 20, 1);
         listOfCars.add(auto);
