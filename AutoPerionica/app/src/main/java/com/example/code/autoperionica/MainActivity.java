@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
         listOfCars.add(auto);
         auto = new Auto("Honda", "bg-1169-nt", 50, 4);
         listOfCars.add(auto);
+        auto = new Auto("BMW", "np-010-ns", 100, 9);
+        listOfCars.add(auto);
+        auto = new Auto("Skoda", "bg-458-ar", 40, 7);
+
         auto = new Auto("Suzuki", "ko-002-sn", 77,5);
         listOfCars.add(auto);
         auto = new Auto("Audi","bg-321-kk",90,2);
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         auto = new Auto("Aston Martin","pz-223-dj", 750, 1);
         listOfCars.add(auto);
         auto = new Auto ("Lexus", "ni-112-rs", 23,32);
+
         listOfCars.add(auto);
     }
 }
