@@ -27,5 +27,14 @@ public class MainActivity extends AppCompatActivity {
         auto = new Auto("Suzuki", "ko-002-sn", 77,5);
         listOfCars.add(auto);
         auto = new Auto("Audi","bg-321-kk",90,2);
+
+        auto = new Auto("Fica", "kv-232-jj", 20, 1);
+        listOfCars.add(auto);
+
+        auto = new Auto("Reno 4", "kg-2232-gg", 20, 2);
+        auto = new Auto("Aston Martin","pz-223-dj", 750, 1);
+        listOfCars.add(auto);
+        auto = new Auto ("Lexus", "ni-112-rs", 23,32);
+        listOfCars.add(auto);
     }
 }
