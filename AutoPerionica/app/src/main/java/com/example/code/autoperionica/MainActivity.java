@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.car_wash_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        CarWashAdapter carWashAdapter = new CarWashAdapter(listOfCars);
+        recyclerView.setAdapter(carWashAdapter);
     }
 
     private void makeCoupleOfCars() {

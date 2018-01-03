@@ -28,4 +28,14 @@ public class Auto {
     public int getBoja() {
         return boja;
     }
+
+    @Override
+    public String toString() {
+        return "Auto{" +
+                "marka='" + marka + '\'' +
+                ", registracija='" + registracija + '\'' +
+                ", cenaPranja=" + cenaPranja +
+                ", boja=" + boja +
+                '}';
+    }
 }
