@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AutoPerionica</string>
+    <string name="add_car_title">Add Car</string>
+    <string name="enter_car_model">Enter car model</string>
+    <string name="enter_registration_number">Enter registration number</string>
+    <string name="enter_car_wash_price">Car Wash Price</string>
+    <string name="add_car">Add Car</string>
 </resources>

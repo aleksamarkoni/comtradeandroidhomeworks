@@ -1,5 +1,6 @@
 package com.example.code.autoperionica;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private final int ADD_CAR_RESULT = 23;
     List<Auto> listOfCars;
 
     @Override
@@ -34,15 +38,26 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        }).show();
+                Intent intent = new Intent(MainActivity.this, AddCarActivity.class);
+                MainActivity.this.startActivityForResult(intent, ADD_CAR_RESULT);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD_CAR_RESULT) {
+            if (resultCode == RESULT_OK) {
+                String model = data.getStringExtra("model");
+                String registration = data.getStringExtra("registration");
+                String carWasPrice = data.getStringExtra("car_wash_price");
+                Log.d(TAG, "model: " + model + " registartion: " + registration + " price: " + carWasPrice);
+            } else {
+                Log.d(TAG, "Add car did not happen");
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void makeCoupleOfCars() {
@@ -86,4 +101,5 @@ public class MainActivity extends AppCompatActivity {
         auto = new Auto ("Lexus", "ni-112-rs", 23,32);
         listOfCars.add(auto);
     }
+
 }

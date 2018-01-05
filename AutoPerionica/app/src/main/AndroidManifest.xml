@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddCarActivity"></activity>
+        <activity android:name=".AddCarActivity"
+            android:label="@string/add_car_title"/>
     </application>
 
 </manifest>
