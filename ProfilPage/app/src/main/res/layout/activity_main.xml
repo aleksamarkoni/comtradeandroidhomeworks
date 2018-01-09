@@ -50,7 +50,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:src="@drawable/derek_norton" />
-    
+
 
     <TextView
         android:layout_width="wrap_content"
