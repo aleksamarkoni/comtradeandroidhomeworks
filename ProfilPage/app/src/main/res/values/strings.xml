@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Profil Page</string>
+    <string name="bio">I\'am UI Designer started working on mobile app screen and looking for good opportunity for Mobile app design for your next project.</string>
+    <string name="about">About</string>
+    <string name="following_number">1547</string>
+    <string name="following">FOLLOWING</string>
+    <string name="followers_number">16845</string>
+    <string name="followers">FOLLOWERS</string>
+    <string name="name">Derek Norton</string>
+    <string name="basic_info">Active | 45 year old</string>
+    <string name="profile">PROFILE</string>
+</resources>

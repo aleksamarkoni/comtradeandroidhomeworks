@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AutoPerionica</string>
+    <string name="dodaj_auto">Dodaj auto</string>
+    <string name="Dodaj_Auto">Dodaj Auto</string>
+    <string name="dodaj_marku">dodaj marku</string>
+    <string name="dodaj_registraciju">dodaj registraciju</string>
+    <string name="dodaj_cenu">dodaj cenu</string>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/marka"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="16dp"
+        android:layout_toEndOf="@+id/boja"
+        android:layout_toRightOf="@+id/boja"
+        android:textSize="20sp"
+        tools:text="marka automobila" />
+
+    <TextView
+        android:id="@+id/registracija"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/marka"
+        android:layout_margin="16dp"
+        android:layout_toEndOf="@+id/boja"
+        android:layout_toRightOf="@+id/boja"
+        android:textSize="20sp"
+        tools:text="registracija" />
+
+    <TextView
+        android:id="@+id/cena"
+        android:layout_below="@id/marka"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="cena" />
+
+    <View
+        android:id="@+id/boja"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp" />
+
+
+</RelativeLayout>
