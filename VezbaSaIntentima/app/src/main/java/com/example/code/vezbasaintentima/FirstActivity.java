@@ -1,5 +1,6 @@
 package com.example.code.vezbasaintentima;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -56,6 +57,10 @@ public class FirstActivity extends AppCompatActivity {
             return;
         }
         int zbir = prviInt + drugiInt;
-        Toast.makeText(this, "Zbir je: " + zbir, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Zbir je: " + zbir, Toast.LENGTH_LONG).show();
+        Intent result = new Intent();
+        result.putExtra("zbir", zbir);
+        setResult(RESULT_OK, result);
+        finish();
     }
 }
