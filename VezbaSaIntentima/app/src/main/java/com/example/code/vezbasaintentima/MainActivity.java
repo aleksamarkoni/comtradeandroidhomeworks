@@ -5,17 +5,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int RESULT_FROM_FIRST_ACTIVITY = 23;
 
+    TextView firstZbirTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button = findViewById(R.id.start_first_activity);
+        firstZbirTextView = findViewById(R.id.result_from_first_activity);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == RESULT_FROM_FIRST_ACTIVITY) {
             if (resultCode == RESULT_OK) {
                 int zbir = data.getIntExtra("zbir", 0);
+                firstZbirTextView.setText("Zbir je: " + zbir);
                 Toast.makeText(this, "Stigao rezultat " + zbir, Toast.LENGTH_LONG).show();
             }
         } else {
