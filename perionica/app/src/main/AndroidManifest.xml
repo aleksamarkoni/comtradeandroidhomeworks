@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< Updated upstream:perionica/app/src/main/AndroidManifest.xml
+=======
+        <activity android:name=".FirstActivity" />
+        <activity android:name=".SecondActivity" />
+>>>>>>> Stashed changes:VezbaSaIntentima/app/src/main/AndroidManifest.xml
     </application>
 
 </manifest>
