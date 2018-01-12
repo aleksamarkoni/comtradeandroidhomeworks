@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AutoPerionica.iml" filepath="$PROJECT_DIR$/AutoPerionica.iml" />
+      <module fileurl="file://C:\Users\Dell.Dell-PC\Desktop\materijal\comtradeandroidhomeworks\AutoPerionica\AutoPerionica.iml" filepath="C:\Users\Dell.Dell-PC\Desktop\materijal\comtradeandroidhomeworks\AutoPerionica\AutoPerionica.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Dell.Dell-PC\Desktop\materijal\comtradeandroidhomeworks\AutoPerionica\app\app.iml" filepath="C:\Users\Dell.Dell-PC\Desktop\materijal\comtradeandroidhomeworks\AutoPerionica\app\app.iml" />
     </modules>
   </component>
 </project>

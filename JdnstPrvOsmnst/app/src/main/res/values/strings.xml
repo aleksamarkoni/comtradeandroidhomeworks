@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">JdnstPrvOsmnst</string>
+    <string name="prvo_dugme">Prvo Dugme</string>
+    <string name="zbir">Zbir</string>
+    <string name="prvi_sabirak">prvi sabirak</string>
+    <string name="drugi_sabirak">drugi sabirak</string>
+    <string name="saberi">Saberi</string>
+    <string name="drugo_dugme">drugo dugme</string>
+    <string name="random">random</string>
+    <string name="trece_dugme">trece dugme</string>
+    <string name="rezultat">rezultat</string>
+</resources>
