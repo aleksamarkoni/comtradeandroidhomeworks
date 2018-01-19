@@ -1,6 +1,8 @@
 package com.example.code.simpletictactoe;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+        restartTable();
     }
 
     private void buttonClick(View view) {
@@ -92,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         currentPlayer = Player.IKS_PLAYER;
                         break;
                 }
-
+                checkForWinner();
                 break;
 //            case IKS:
 //                button.setBackgroundResource(R.drawable.oks_background);
@@ -106,11 +109,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void checkForWinner() {
+        if (buttonStates[0][0] == ButtonState.IKS &&
+                buttonStates[0][1] == ButtonState.IKS &&
+                buttonStates[0][2] == ButtonState.IKS) {
+            ispisiToast("X je pobednik");
+            restartTable();
+            //TODO nekako prekini sve ovo, i pokreni novu igru
+            return;
+        }
+        if (buttonStates[0][0] == ButtonState.OKS &&
+                buttonStates[0][1] == ButtonState.OKS &&
+                buttonStates[0][2] == ButtonState.OKS) {
+            ispisiToast("O je pobednik");
+            restartTable();
+            //TODO nekako prekini sve ovo, i pokreni novu igru
+            return;
+        }
+        ispisiToast("Jos uvek nema pobednika");
+    }
+
     private void ispisiToast(String s) {
         Toast.makeText(MainActivity.this,
                 s,
                 Toast.LENGTH_SHORT)
                 .show();
+    }
+
+    private void restartTable() {
+        for (int i = 0; i < buttons.length; i++) {
+            Button button = findViewById(buttons[i]);
+            button.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttonStates[i][j] = ButtonState.EMPTY;
+            }
+        }
     }
 
     public enum ButtonState {EMPTY, IKS, OKS}
