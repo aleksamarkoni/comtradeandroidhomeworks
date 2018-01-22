@@ -32,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        int vs = getIntent().getIntExtra("vs", 1);
+        if (vs == 0) {
+            gameType = GameType.VS_HUMMAN;
+        } else if (vs == 1) {
+            gameType = GameType.VS_COMPUTER;
+        }
         for (int i = 0; i < buttonIds.length; i++) {
             Button button = findViewById(buttonIds[i]);
             buttonViews[i] = button;
