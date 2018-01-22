@@ -12,7 +12,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private int buttons[] = {
+    private int buttonIds[] = {
             R.id.b_1_1, R.id.b_1_2, R.id.b_1_3,
             R.id.b_2_1, R.id.b_2_2, R.id.b_2_3,
             R.id.b_3_1, R.id.b_3_2, R.id.b_3_3
@@ -24,15 +24,15 @@ public class MainActivity extends AppCompatActivity {
             {ButtonState.EMPTY, ButtonState.EMPTY, ButtonState.EMPTY}
     };
 
-    private Player currentPlayer = Player.IKS_PLAYER;
+    private Player currentPlayer = Player.OKS_PLAYER;
     private GameType gameType = GameType.VS_COMPUTER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        for (int i = 0; i < buttons.length; i++) {
-            Button button = findViewById(buttons[i]);
+        for (int i = 0; i < buttonIds.length; i++) {
+            Button button = findViewById(buttonIds[i]);
             buttonViews[i] = button;
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -108,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case OKS_PLAYER:
-//                        button.setBackgroundResource(R.drawable.oks_background);
-//                        buttonStates[row][col] = ButtonState.OKS;
-//                        currentPlayer = Player.IKS_PLAYER;
-//                        //compiuter odigra svoje
+                        buttonViews[row * 3 + col].setBackgroundResource(R.drawable.oks_background);
+                        buttonStates[row][col] = ButtonState.OKS;
+                        currentPlayer = Player.IKS_PLAYER;
+                        //compiuter odigra svoje
                         break;
                 }
                 if (checkForWinner()) {
@@ -248,8 +248,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void restartTable() {
-        for (int i = 0; i < buttons.length; i++) {
-            Button button = findViewById(buttons[i]);
+        for (int i = 0; i < buttonIds.length; i++) {
+            Button button = findViewById(buttonIds[i]);
             button.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         }
         for (int i = 0; i < 3; i++) {
