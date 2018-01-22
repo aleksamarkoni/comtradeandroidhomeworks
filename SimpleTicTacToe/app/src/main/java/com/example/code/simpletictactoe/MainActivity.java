@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -15,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.b_2_1, R.id.b_2_2, R.id.b_2_3,
             R.id.b_3_1, R.id.b_3_2, R.id.b_3_3
     };
+    private Button buttonViews[] = new Button[9];
     private ButtonState[][] buttonStates = {
             {ButtonState.EMPTY, ButtonState.EMPTY, ButtonState.EMPTY},
             {ButtonState.EMPTY, ButtonState.EMPTY, ButtonState.EMPTY},
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private Player currentPlayer = Player.IKS_PLAYER;
+    private GameType gameType = GameType.VS_COMPUTER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         for (int i = 0; i < buttons.length; i++) {
             Button button = findViewById(buttons[i]);
+            buttonViews[i] = button;
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -43,56 +48,70 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.b_1_1:
                 ispisiToast("prvi red, prvo dugme");
-                odigraPotez(view, 0, 0);
+                odigraPotez(0, 0);
                 break;
             case R.id.b_1_2:
                 ispisiToast("prvi red, drugo dugme");
-                odigraPotez(view, 0, 1);
+                odigraPotez(0, 1);
                 break;
             case R.id.b_1_3:
                 ispisiToast("prvi red, trece dugme");
-                odigraPotez(view, 0, 2);
+                odigraPotez(0, 2);
                 break;
             case R.id.b_2_1:
                 ispisiToast("drugi red, prvo dugme");
-                odigraPotez(view, 1, 0);
+                odigraPotez(1, 0);
                 break;
             case R.id.b_2_2:
                 ispisiToast("drugi red, drugo dugme");
-                odigraPotez(view, 1, 1);
+                odigraPotez(1, 1);
                 break;
             case R.id.b_2_3:
                 ispisiToast("drugi red, trece dugme");
-                odigraPotez(view, 1, 2);
+                odigraPotez(1, 2);
                 break;
             case R.id.b_3_1:
                 ispisiToast("treci red, prvo dugme");
-                odigraPotez(view, 2, 0);
+                odigraPotez(2, 0);
                 break;
             case R.id.b_3_2:
                 ispisiToast("treci red, drugo dugme");
-                odigraPotez(view, 2, 1);
+                odigraPotez(2, 1);
                 break;
             case R.id.b_3_3:
                 ispisiToast("treci red, trece dugme");
-                odigraPotez(view, 2, 2);
+                odigraPotez(2, 2);
                 break;
         }
     }
 
-    private void odigraPotez(View button, int row, int col) {
+    private void odigraPotez(int row, int col) {
         switch (buttonStates[row][col]) {
             case EMPTY:
                 switch (currentPlayer) {
                     case IKS_PLAYER:
-                        button.setBackgroundResource(R.drawable.iks_background);
+                        buttonViews[row * 3 + col].setBackgroundResource(R.drawable.iks_background);
                         buttonStates[row][col] = ButtonState.IKS;
                         currentPlayer = Player.OKS_PLAYER;
+                        if (checkForWinner()) {
+                            restartTable();
+                            return;
+                        }
+
+                        if (gameType == GameType.VS_COMPUTER) {
+                            computerMove(ButtonState.OKS, R.drawable.oks_background);
+                            currentPlayer = Player.IKS_PLAYER;
+                            if (checkForWinner()) {
+                                restartTable();
+                                return;
+                            }
+                        }
                         break;
                     case OKS_PLAYER:
-                        button.setBackgroundResource(R.drawable.oks_background);
-                        buttonStates[row][col] = ButtonState.OKS;
-                        currentPlayer = Player.IKS_PLAYER;
+//                        button.setBackgroundResource(R.drawable.oks_background);
+//                        buttonStates[row][col] = ButtonState.OKS;
+//                        currentPlayer = Player.IKS_PLAYER;
+//                        //compiuter odigra svoje
                         break;
                 }
                 if (checkForWinner()) {
@@ -108,6 +127,19 @@ public class MainActivity extends AppCompatActivity {
 //                buttonStates[row][col] = ButtonState.EMPTY;
 //                break;
 
+        }
+    }
+
+    private void computerMove(ButtonState state, int drawable) {
+        Random random = new Random();
+        while (true) {
+            int x = random.nextInt(3);
+            int y = random.nextInt(3);
+            if (buttonStates[x][y] == ButtonState.EMPTY) {
+                buttonStates[x][y] = state;
+                buttonViews[x * 3 + y].setBackgroundResource(drawable);
+                break;
+            }
         }
     }
 
@@ -230,5 +262,7 @@ public class MainActivity extends AppCompatActivity {
     public enum ButtonState {EMPTY, IKS, OKS}
 
     public enum Player {IKS_PLAYER, OKS_PLAYER}
+
+    public enum GameType {VS_HUMMAN, VS_COMPUTER}
 
 }
