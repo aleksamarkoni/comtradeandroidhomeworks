@@ -1,6 +1,5 @@
 package com.example.code.simpletictactoe;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private int buttons[] = {
             R.id.b_1_1, R.id.b_1_2, R.id.b_1_3,
             R.id.b_2_1, R.id.b_2_2, R.id.b_2_3,
@@ -95,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
                         currentPlayer = Player.IKS_PLAYER;
                         break;
                 }
-                checkForWinner();
+                if (checkForWinner()) {
+                    restartTable();
+                }
                 break;
 //            case IKS:
 //                button.setBackgroundResource(R.drawable.oks_background);
@@ -109,24 +111,101 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkForWinner() {
-        if (buttonStates[0][0] == ButtonState.IKS &&
-                buttonStates[0][1] == ButtonState.IKS &&
-                buttonStates[0][2] == ButtonState.IKS) {
-            ispisiToast("X je pobednik");
-            restartTable();
-            //TODO nekako prekini sve ovo, i pokreni novu igru
-            return;
+    private boolean checkForWinner() {
+
+        for (int j = 0; j < 3; j++) {
+            int brX = 0;
+            int brO = 0;
+            for (int i = 0; i <= 2; i++) {
+                if (buttonStates[j][i] == ButtonState.IKS) {
+                    brX++;
+                }
+                if (buttonStates[j][i] == ButtonState.OKS) {
+                    brO++;
+                }
+            }
+            if (brX == 3) {
+                ispisiToast("X je pobednik");
+                return true;
+            }
+            if (brO == 3) {
+                ispisiToast("O je pobednik");
+                return true;
+            }
+        } //kraj reda
+        for (int i = 0; i <= 2; i++) {
+            int brX = 0;
+            int brO = 0;
+            for (int j = 0; j < 3; j++) {
+                if (buttonStates[j][i] == ButtonState.IKS) {
+                    brX++;
+                }
+                if (buttonStates[j][i] == ButtonState.OKS) {
+                    brO++;
+                }
+            }
+            if (brX == 3) {
+                ispisiToast("X je pobednik");
+                return true;
+            }
+            if (brO == 3) {
+                ispisiToast("O je pobednik");
+                return true;
+            }
+        } //kraj kolone
+//        for (int i = 0; i < 3; i++) {
+//            boolean imaTriX = true;
+//            boolean imaTriO = true;
+//            for (int j = 0; j < 3; j++) {
+//                if (buttonStates[i][j] != ButtonState.IKS) {
+//                    imaTriX = false;
+//                }
+//                if (buttonStates[i][j] != ButtonState.OKS) {
+//                    imaTriO = false;
+//                }
+//            }
+//            if (imaTriX || imaTriO) {
+//                ispisiToast("Imam pobednika");
+//            }
+//        }
+        int brX = 0;
+        int brO = 0;
+        for (int i = 0; i < 3; i++) {
+            if (buttonStates[i][i] == ButtonState.IKS) {
+                brX++;
+            }
+            if (buttonStates[i][i] == ButtonState.OKS) {
+                brO++;
+            }
         }
-        if (buttonStates[0][0] == ButtonState.OKS &&
-                buttonStates[0][1] == ButtonState.OKS &&
-                buttonStates[0][2] == ButtonState.OKS) {
+        if (brX == 3) {
+            ispisiToast("X je pobednik");
+            return true;
+        }
+        if (brO == 3) {
             ispisiToast("O je pobednik");
-            restartTable();
-            //TODO nekako prekini sve ovo, i pokreni novu igru
-            return;
+            return true;
+        }
+        brX = 0;
+        brO = 0;
+        for (int i = 0; i < 3; i++) {
+            if (buttonStates[i][2-i] == ButtonState.IKS) {
+                brX++;
+            }
+            if (buttonStates[i][2-i] == ButtonState.OKS) {
+                brO++;
+            }
+        }
+        if (brX == 3) {
+            ispisiToast("X je pobednik");
+            return true;
+        }
+        if (brO == 3) {
+            ispisiToast("O je pobednik");
+            return true;
         }
         ispisiToast("Jos uvek nema pobednika");
+        return false;
     }
 
     private void ispisiToast(String s) {
