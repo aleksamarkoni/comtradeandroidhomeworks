@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                         buttonViews[row * 3 + col].setBackgroundResource(R.drawable.iks_background);
                         buttonStates[row][col] = ButtonState.IKS;
                         currentPlayer = Player.OKS_PLAYER;
-                        if (checkForWinner()) {
+                        if (checkForWinner() != Winner.NO_WINNER) {
                             restartTable();
                             return;
                         }
@@ -101,20 +101,23 @@ public class MainActivity extends AppCompatActivity {
                         if (gameType == GameType.VS_COMPUTER) {
                             computerMove(ButtonState.OKS, R.drawable.oks_background);
                             currentPlayer = Player.IKS_PLAYER;
-                            if (checkForWinner()) {
-                                restartTable();
-                                return;
-                            }
                         }
                         break;
                     case OKS_PLAYER:
                         buttonViews[row * 3 + col].setBackgroundResource(R.drawable.oks_background);
                         buttonStates[row][col] = ButtonState.OKS;
                         currentPlayer = Player.IKS_PLAYER;
-                        //compiuter odigra svoje
+                        if (checkForWinner() != Winner.NO_WINNER) {
+                            restartTable();
+                            return;
+                        }
+                        if (gameType == GameType.VS_COMPUTER) {
+                            computerMove(ButtonState.IKS, R.drawable.iks_background);
+                            currentPlayer = Player.OKS_PLAYER;
+                        }
                         break;
                 }
-                if (checkForWinner()) {
+                if (checkForWinner() != Winner.NO_WINNER) {
                     restartTable();
                 }
                 break;
@@ -143,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkForWinner() {
+    private Winner checkForWinner() {
 
         for (int j = 0; j < 3; j++) {
             int brX = 0;
@@ -158,11 +161,11 @@ public class MainActivity extends AppCompatActivity {
             }
             if (brX == 3) {
                 ispisiToast("X je pobednik");
-                return true;
+                return Winner.IKS;
             }
             if (brO == 3) {
                 ispisiToast("O je pobednik");
-                return true;
+                return Winner.OKS;
             }
         } //kraj reda
         for (int i = 0; i <= 2; i++) {
@@ -178,11 +181,11 @@ public class MainActivity extends AppCompatActivity {
             }
             if (brX == 3) {
                 ispisiToast("X je pobednik");
-                return true;
+                return Winner.IKS;
             }
             if (brO == 3) {
                 ispisiToast("O je pobednik");
-                return true;
+                return Winner.OKS;
             }
         } //kraj kolone
 //        for (int i = 0; i < 3; i++) {
@@ -212,11 +215,11 @@ public class MainActivity extends AppCompatActivity {
         }
         if (brX == 3) {
             ispisiToast("X je pobednik");
-            return true;
+            return Winner.IKS;
         }
         if (brO == 3) {
             ispisiToast("O je pobednik");
-            return true;
+            return Winner.OKS;
         }
         brX = 0;
         brO = 0;
@@ -230,14 +233,23 @@ public class MainActivity extends AppCompatActivity {
         }
         if (brX == 3) {
             ispisiToast("X je pobednik");
-            return true;
+            return Winner.IKS;
         }
         if (brO == 3) {
             ispisiToast("O je pobednik");
-            return true;
+            return Winner.OKS;
         }
-        ispisiToast("Jos uvek nema pobednika");
-        return false;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (buttonStates[i][j] == ButtonState.EMPTY) {
+                    ispisiToast("Jos uvek nema pobednika");
+                    return Winner.NO_WINNER;
+                }
+            }
+        }
+        //e pa ovde je draw
+        ispisiToast("Nema pobednika");
+        return Winner.DRAW;
     }
 
     private void ispisiToast(String s) {
@@ -265,4 +277,5 @@ public class MainActivity extends AppCompatActivity {
 
     public enum GameType {VS_HUMMAN, VS_COMPUTER}
 
+    public enum Winner {IKS, OKS, NO_WINNER, DRAW}
 }
