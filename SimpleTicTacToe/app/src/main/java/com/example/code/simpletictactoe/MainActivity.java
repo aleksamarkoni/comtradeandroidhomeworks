@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +42,40 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        restartTable();
+        if (savedInstanceState == null) {
+            restartTable();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ArrayList<Integer> buttonStateArray = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int bsnum = buttonStates[i][j].ordinal();
+                buttonStateArray.add(bsnum);
+            }
+        }
+        outState.putIntegerArrayList("buttonStates", buttonStateArray);
+        outState.putInt("currentPlayer", currentPlayer.ordinal());
+    }
+
+    public enum ButtonState {EMPTY, IKS, OKS}
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        ArrayList<Integer> buttonStatesArray = savedInstanceState.getIntegerArrayList("buttonStates");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int btnstate = buttonStatesArray.get(i*3 + j);
+                buttonStates[i][j] = ButtonState.values()[btnstate];
+            }
+        }
+        int curPlayNum = savedInstanceState.getInt("currentPlayer");
+        currentPlayer = Player.values()[curPlayNum];
+        refreshTable();
     }
 
     private void buttonClick(View view) {
@@ -271,7 +305,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public enum ButtonState {EMPTY, IKS, OKS}
+    private void refreshTable() {
+//        for (int i = 0; i < buttonIds.length; i++) {
+//            Button button = findViewById(buttonIds[i]);
+//            button.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+//        }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Button button = buttonViews[i * 3 + j];
+                switch (buttonStates[i][j]) {
+                    case IKS:
+                        button.setBackgroundResource(R.drawable.iks_background);
+                        break;
+                    case OKS:
+                        button.setBackgroundResource(R.drawable.oks_background);
+                        break;
+                    case EMPTY:
+                        button.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+                        break;
+                }
+            }
+        }
+    }
+
+
 
     public enum Player {IKS_PLAYER, OKS_PLAYER}
 
