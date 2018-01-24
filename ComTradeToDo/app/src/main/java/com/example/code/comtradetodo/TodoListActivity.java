@@ -24,8 +24,22 @@ public class TodoListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         todoList = new ArrayList<>();
-        todoList.add(new Todo("addaf"));
-        todoList.add(new Todo("doaijfd"));
+        todoList.add(new Todo("kolica", true));
+        todoList.add(new Todo("sok", true));
+        todoList.add(new Todo("plazma"));
+        todoList.add(new Todo("guarana"));
+        todoList.add(new Todo("maslac"));
+        todoList.add(new Todo("mleko", true));
+        todoList.add(new Todo("brasno"));
+        todoList.add(new Todo("sapun"));
+        todoList.add(new Todo("kolica 1"));
+        todoList.add(new Todo("sok 1", true));
+        todoList.add(new Todo("plazma 1"));
+        todoList.add(new Todo("guarana 1", true));
+        todoList.add(new Todo("maslac 1"));
+        todoList.add(new Todo("mleko 1", true));
+        todoList.add(new Todo("brasno 1", true));
+        todoList.add(new Todo("sapun 1"));
 
         RecyclerView recyclerView = findViewById(R.id.todo_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
