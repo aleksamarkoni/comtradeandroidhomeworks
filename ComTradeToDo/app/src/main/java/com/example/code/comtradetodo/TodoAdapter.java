@@ -23,6 +23,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.todo_list_item, parent, false);
         CheckBox checkBox = view.findViewById(R.id.todo_done_checkbox);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int position = (Integer) buttonView.getTag();
+                Todo todo = todoList.get(position);
+                todo.setDone(isChecked);
+            }
+        });
 
         return new TodoAdapter.TodoViewHolder(view);
     }
@@ -31,13 +39,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     public void onBindViewHolder(final TodoViewHolder holder, int position) {
         final Todo todo = todoList.get(position);
         holder.titleTextView.setText(todo.getTitle());
+        holder.isDoneCheckBox.setTag(position);
         holder.isDoneCheckBox.setChecked(todo.isDone());
-        holder.isDoneCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                todo.setDone(b);
-            }
-        });
     }
 
     @Override
@@ -48,6 +51,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     static class TodoViewHolder extends RecyclerView.ViewHolder {
         private TextView titleTextView;
         private CheckBox isDoneCheckBox;
+
         public TodoViewHolder(View itemView) {
             super(itemView);
             isDoneCheckBox = itemView.findViewById(R.id.todo_done_checkbox);
