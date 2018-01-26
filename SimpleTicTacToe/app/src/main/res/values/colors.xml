@@ -4,5 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="status_expired_color">#E9510E</color>
-    <color name="white">#ffff</color>
+    <color name="white">#ffffff</color>
 </resources>
