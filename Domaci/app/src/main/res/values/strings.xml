@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Domaci</string>
+    <string name="add_buton1">Add Buton</string>
+    <string name="show_text">show text</string>
 </resources>

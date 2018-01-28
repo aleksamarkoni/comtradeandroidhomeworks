@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context="com.example.code.simpletictactoe.MainActivity">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="5dp"
+        android:layout_height="40dp"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintGuide_percent="0.5" />
+
     <Button
         android:id="@+id/b_1_1"
         android:layout_width="wrap_content"

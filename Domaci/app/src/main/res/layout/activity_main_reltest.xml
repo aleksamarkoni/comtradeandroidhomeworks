@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/add_max"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/centralniHoriz"
+        android:layout_margin="16dp"
+        android:layout_toEndOf="@id/centminiVert"
+        android:text="@string/add_buton1"
+        android:textColor="@color/colorRed" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_text"
+        android:textSize="22sp"
+        android:textColor="@color/colorRed"
+        android:layout_margin="44dp"
+        android:layout_above="@id/centralniHoriz"
+        android:layout_toStartOf="@id/centminiVert"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <View
+        android:id="@+id/centralniHoriz"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/centralniHoriz"
+        android:background="@color/colorRed" />
+
+    <View
+        android:id="@+id/centminiVert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/centralniHoriz"
+        android:layout_centerHorizontal="true" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/centralniHoriz"
+        android:layout_toStartOf="@id/centminiVert"
+        android:background="@color/colorOrange" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/centralniHoriz"
+        android:layout_toEndOf="@id/centminiVert"
+        android:background="@color/colorAccent" />
+
+
+</RelativeLayout>

@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Domaci.iml" filepath="$PROJECT_DIR$/Domaci.iml" />
+      <module fileurl="file://D:\myapp\comtradeandroidhomeworks\Domaci\Domaci.iml" filepath="D:\myapp\comtradeandroidhomeworks\Domaci\Domaci.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\myapp\comtradeandroidhomeworks\Domaci\app\app.iml" filepath="D:\myapp\comtradeandroidhomeworks\Domaci\app\app.iml" />
     </modules>
   </component>
 </project>
