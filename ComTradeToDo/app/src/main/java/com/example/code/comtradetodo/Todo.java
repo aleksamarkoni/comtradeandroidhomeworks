@@ -9,6 +9,14 @@ public class Todo implements Parcelable {
     private String about;
     private boolean isDone;
 
+    public Todo(String title) {
+        this.title = title;
+    }
+
+    public Todo(String title, boolean isDone) {
+        this.title = title;
+    }
+
     public Todo(String title, String about) {
         this.title = title;
         this.about = about;
