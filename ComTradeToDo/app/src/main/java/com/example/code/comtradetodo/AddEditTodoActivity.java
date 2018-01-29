@@ -18,23 +18,30 @@ public class AddEditTodoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final TextView textView = findViewById(R.id.edit_text_add_edit_activity_title_text_view);
+        final TextView textViewT = findViewById(R.id.edit_text_add_edit_activity_title_text_view);
+        final TextView textViewA = findViewById(R.id.edit_about);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CharSequence todoTitle = textView.getText();
+
+                CharSequence todoTitle = textViewT.getText();
+                CharSequence todoAbout = textViewA.getText();
+
                 if (todoTitle == null) {
-                    Snackbar.make(view, "Nisi nista ni uneo", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Nisi nista ni uneo u Title", Snackbar.LENGTH_SHORT).show();
                 } else if (todoTitle.length() == 0) {
-                    Snackbar.make(view, "Prazan text", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Prazan text u Title", Snackbar.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent();
                     intent.putExtra("todoTitle", todoTitle.toString());
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    intent.putExtra("todoAbout", todoAbout.toString());
+                    setResult(RESULT_OK, intent); finish();
+
                 }
+
+
             }
         });
     }

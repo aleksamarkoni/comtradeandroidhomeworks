@@ -21,9 +21,7 @@ public class Movie {
         return movieName;
     }
 
-    public String getMovieGenre() {
-        return movieGenre;
-    }
+    public String getMovieGenre() {return movieGenre;}
 
     public String getYear() {
         return year;

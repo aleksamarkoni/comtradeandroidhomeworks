@@ -1,10 +1,12 @@
 package com.example.code.comtradetodo;
 
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Todo implements Parcelable {
     private String title;
+    private String about;
     private boolean isDone;
 
     public Todo(String title) {
@@ -13,6 +15,16 @@ public class Todo implements Parcelable {
 
     public Todo(String title, boolean isDone) {
         this.title = title;
+    }
+
+    public Todo(String title, String about) {
+        this.title = title;
+        this.about = about;
+    }
+
+    public Todo(String title, String about, boolean isDone) {
+        this.about = about;
+        this.title = title;
         this.isDone = isDone;
     }
 
@@ -20,8 +32,17 @@ public class Todo implements Parcelable {
         return title;
     }
 
+    public String getAbout() {
+        return about;
+    }
+
+
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 
     public boolean isDone() {
@@ -34,6 +55,7 @@ public class Todo implements Parcelable {
 
     protected Todo(Parcel in) {
         title = in.readString();
+        about = in.readString();
         isDone = in.readByte() != 0x00;
     }
 
@@ -45,6 +67,7 @@ public class Todo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
+        dest.writeString(about);
         dest.writeByte((byte) (isDone ? 0x01 : 0x00));
     }
 
