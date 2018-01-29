@@ -35,8 +35,8 @@ public class TodoListActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             todoList = new ArrayList<>();
-            todoList.add(new Todo("kolica", "sdfsd", true));
-            todoList.add(new Todo("sok", "ssdf", true));
+            todoList.add(new Todo("kolica", "zenska", true));
+            todoList.add(new Todo("sok", "Pepsi", true));
 //            todoList.add(new Todo("plazma"));
 //            todoList.add(new Todo("guarana"));
 //            todoList.add(new Todo("maslac"));

@@ -9,7 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+
 public class AddEditTodoActivity extends AppCompatActivity {
+
+
+    public TextView opisTextView;
+    public TextView textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +24,10 @@ public class AddEditTodoActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final TextView textView = findViewById(R.id.edit_text_add_edit_activity_title_text_view);
+        textView = findViewById(R.id.edit_text_add_edit_activity_title_text_view);
 
-        final TextView opisTextView = findViewById(R.id.edit_text_add_edit_activity_opis_text_view);
+        opisTextView = findViewById(R.id.edit_text_add_edit_activity_opis_text_view);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,4 +50,16 @@ public class AddEditTodoActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String titleString = textView.getText().toString();
+        outState.putString("Title", titleString);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        textView.setText(savedInstanceState.getString("Title"));
+    }
 }
