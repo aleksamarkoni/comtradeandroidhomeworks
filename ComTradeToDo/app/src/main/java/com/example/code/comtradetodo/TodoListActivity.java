@@ -35,8 +35,8 @@ public class TodoListActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             todoList = new ArrayList<>();
-            todoList.add(new Todo("kolica", true));
-            todoList.add(new Todo("sok", true));
+            todoList.add(new Todo("kolica", "sdfsd", true));
+            todoList.add(new Todo("sok", "ssdf", true));
 //            todoList.add(new Todo("plazma"));
 //            todoList.add(new Todo("guarana"));
 //            todoList.add(new Todo("maslac"));
@@ -75,8 +75,9 @@ public class TodoListActivity extends AppCompatActivity {
         if (requestCode == ADD_EDIT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 String todoTitle = data.getStringExtra("todoTitle");
+                String todoOpis = data.getStringExtra("todoOpis");
                 Log.d(TAG, "stigao mi je resultat: " + todoTitle);
-                Todo todo = new Todo(todoTitle);
+                Todo todo = new Todo(todoTitle, todoOpis);
                 todoList.add(todo);
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
             }

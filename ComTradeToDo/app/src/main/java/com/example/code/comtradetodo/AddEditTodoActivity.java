@@ -20,11 +20,14 @@ public class AddEditTodoActivity extends AppCompatActivity {
 
         final TextView textView = findViewById(R.id.edit_text_add_edit_activity_title_text_view);
 
+        final TextView opisTextView = findViewById(R.id.edit_text_add_edit_activity_opis_text_view);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CharSequence todoTitle = textView.getText();
+                CharSequence todoOpis = opisTextView.getText();
                 if (todoTitle == null) {
                     Snackbar.make(view, "Nisi nista ni uneo", Snackbar.LENGTH_SHORT).show();
                 } else if (todoTitle.length() == 0) {
@@ -32,6 +35,7 @@ public class AddEditTodoActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent();
                     intent.putExtra("todoTitle", todoTitle.toString());
+                    intent.putExtra("todoOpis", todoOpis.toString());
                     setResult(RESULT_OK, intent);
                     finish();
                 }
