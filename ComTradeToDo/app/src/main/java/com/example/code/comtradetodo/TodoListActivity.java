@@ -1,9 +1,16 @@
 package com.example.code.comtradetodo;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,6 +68,7 @@ public class TodoListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openAddEditActivity();
+
             }
         });
     }
@@ -78,6 +86,7 @@ public class TodoListActivity extends AppCompatActivity {
                 String todoOpis = data.getStringExtra("todoOpis");
                 Log.d(TAG, "stigao mi je resultat: " + todoTitle);
                 Todo todo = new Todo(todoTitle, todoOpis);
+                showNotification();
                 todoList.add(todo);
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
             }
@@ -106,5 +115,30 @@ public class TodoListActivity extends AppCompatActivity {
             todoAdapter = new TodoAdapter(todoList);
             recyclerView.setAdapter(todoAdapter);
         }
+    }
+
+    public void showNotification() {
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String kanal = "kanal";
+        CharSequence charSequence = getString(R.string.kanal);
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel channel = new NotificationChannel(kanal, charSequence, importance);
+
+        notificationManager.createNotificationChannel(channel);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, kanal)
+                .setSmallIcon(R.drawable.ic_stat_name)
+                .setContentTitle("Notifikacija")
+                .setContentText("Dodat je novi item u listi");
+        notificationManager.notify(10, builder.build());
+
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(this, MyReceiver2.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 5 * 1000, pendingIntent);
     }
 }

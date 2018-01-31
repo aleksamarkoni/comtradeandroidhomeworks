@@ -3,4 +3,6 @@
     <string name="title_activity_todo_list">TodoListActivity</string>
     <string name="title_activity_add_edit_todo">AddEditTodo</string>
     <string name="todo_title">Todo Title</string>
+    <string name="kanal">kanal</string>
+    <string name="kanal_description">kanal_description</string>
 </resources>

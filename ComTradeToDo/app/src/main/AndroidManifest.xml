@@ -22,7 +22,12 @@
         <activity
             android:name=".AddEditTodoActivity"
             android:label="@string/title_activity_add_edit_todo"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver
+            android:name=".MyReceiver2"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>
