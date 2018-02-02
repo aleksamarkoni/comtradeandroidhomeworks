@@ -1,9 +1,17 @@
 package com.example.code.comtradetodo;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -75,11 +83,13 @@ public class TodoListActivity extends AppCompatActivity {
         if (requestCode == ADD_EDIT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 String todoTitle = data.getStringExtra("todoTitle");
+                //TODO izvuci informacije o hour i min, i ubaciti ih u Todo item 1 poen
                 Log.d(TAG, "stigao mi je resultat: " + todoTitle);
                 Todo todo = new Todo(todoTitle);
                 todoList.add(todo);
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
-                
+                //TODO ako todo ima notification time, upaliti alarm, koji ce prikazati notifikaciju sa titlom todo-a;
+                showNotificationWithAlarm(todo);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -106,5 +116,12 @@ public class TodoListActivity extends AppCompatActivity {
             todoAdapter = new TodoAdapter(todoList);
             recyclerView.setAdapter(todoAdapter);
         }
+    }
+
+    public void showNotificationWithAlarm(Todo todo) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, MyReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 5 * 1000, pendingIntent);
     }
 }

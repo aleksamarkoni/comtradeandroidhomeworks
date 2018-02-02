@@ -20,6 +20,8 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
     private int min;
     TextView alarmTextView;
 
+    //TODO obezbediti da se hour i min sacuvaju kada dodje do configuration changa 2 poena
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,7 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
                 } else {
                     Intent intent = new Intent();
                     intent.putExtra("todoTitle", todoTitle.toString());
+                    //TODO dodati u resultat i hour i min promenljive 1 poen
                     setResult(RESULT_OK, intent);
                     finish();
                 }
