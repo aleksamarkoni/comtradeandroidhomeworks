@@ -3,4 +3,5 @@
     <string name="title_activity_todo_list">TodoListActivity</string>
     <string name="title_activity_add_edit_todo">AddEditTodo</string>
     <string name="todo_title">Todo Title</string>
+    <string name="alarm_time">%02d:%02d</string>
 </resources>
