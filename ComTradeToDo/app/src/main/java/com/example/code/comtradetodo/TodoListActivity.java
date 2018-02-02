@@ -79,6 +79,7 @@ public class TodoListActivity extends AppCompatActivity {
                 Todo todo = new Todo(todoTitle);
                 todoList.add(todo);
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
+                
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

@@ -16,17 +16,22 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
 
     private static final String TAG = AddEditTodoActivity.class.getSimpleName();
 
+    private int hour;
+    private int min;
+    TextView alarmTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_todo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        hour = -1;
+        min = -1;
 
         final TextView textView = findViewById(R.id.edit_text_add_edit_activity_title_text_view);
-
-        Button button = findViewById(R.id.set_time_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        alarmTextView = findViewById(R.id.alarm_time_edit_text);
+        alarmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showTimePickerFragment();
@@ -53,16 +58,16 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
     }
 
     private void showTimePickerFragment() {
-        TimePickerFragment timePickerFragment = new TimePickerFragment();
+        TimePickerFragment timePickerFragment = TimePickerFragment.getInstance(hour, min);
         timePickerFragment.show(getFragmentManager(), null);
     }
 
     @Override
     public void onTimeSelected(int hour, int min) {
-        
+        this.hour = hour;
+        this.min = min;
         Log.d(TAG, "Izabrao vreme: " + hour + " " + min);
-        TextView editText = findViewById(R.id.alarm_time_edit_text);
         String text = getString(R.string.alarm_time, hour, min);
-        editText.setText(text);
+        alarmTextView.setText(text);
     }
 }
