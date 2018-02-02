@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TodoListActivity extends AppCompatActivity {
@@ -121,7 +122,19 @@ public class TodoListActivity extends AppCompatActivity {
     public void showNotificationWithAlarm(Todo todo) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, MyReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 5 * 1000, pendingIntent);
+        intent.putExtra("todo", todo);
+        int hour = 20;
+        int min = 54;
+        final Calendar c = Calendar.getInstance();
+        int curHour = c.get(Calendar.HOUR_OF_DAY);
+        int curMin = c.get(Calendar.MINUTE);
+        int curTimeInMins = curHour * 60 + curMin;
+        int alarmTimeInMins = hour * 60 + min;
+        if (alarmTimeInMins > curTimeInMins) {
+            int fromNow = (alarmTimeInMins - curTimeInMins);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + fromNow * 60 * 1000, pendingIntent);
+            Log.d(TAG, "Alarm created");
+        }
     }
 }

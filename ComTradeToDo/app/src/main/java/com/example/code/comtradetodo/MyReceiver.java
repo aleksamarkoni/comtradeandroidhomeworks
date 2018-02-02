@@ -17,10 +17,11 @@ public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "Upalio se alarm i to je to");
-        showNotificationOnClick(context);
+        Todo todo = intent.getParcelableExtra("todo");
+        showNotificationOnClick(context, todo);
     }
 
-    private void showNotificationOnClick(Context context) {
+    private void showNotificationOnClick(Context context, Todo todo) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         String id = "my_channel_01";
@@ -43,8 +44,8 @@ public class MyReceiver extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context, "my_channel_01")
                         .setSmallIcon(R.drawable.ic_stat_name)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+                        .setContentTitle(todo.getTitle())
+                        .setContentText("Move your lazy ass");
         notificationManager.notify(10, mBuilder.build());
     }
 }
