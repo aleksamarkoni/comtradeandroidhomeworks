@@ -6,10 +6,26 @@ import android.os.Parcelable;
 public class Todo implements Parcelable {
     private String title;
     private String opis;
+    private String vreme;
     private boolean isDone;
+
+    public Todo(String title, String vreme, String opis, boolean isDone) {
+        this.title = title;
+        this.vreme = vreme;
+        this.opis = opis;
+        this.isDone = isDone;
+    }
 
     public Todo(String title, String opis, boolean isDone) {
         this.title = title;
+        this.vreme = vreme;
+        this.opis = opis;
+        this.isDone = isDone;
+    }
+
+    public Todo(String title, String opis, String vreme) {
+        this.title = title;
+        this.vreme = vreme;
         this.opis = opis;
         this.isDone = isDone;
     }
@@ -22,6 +38,14 @@ public class Todo implements Parcelable {
 
     public void setOpis(String opis) {
         this.opis = opis;
+    }
+
+    public void setVreme(String vreme) {
+        this.vreme = vreme;
+    }
+
+    public String getVreme() {
+        return vreme;
     }
 
 
@@ -50,6 +74,7 @@ public class Todo implements Parcelable {
     protected Todo(Parcel in) {
         title = in.readString();
         opis = in.readString();
+        vreme = in.readString();
         isDone = in.readByte() != 0x00;
     }
 
@@ -62,6 +87,7 @@ public class Todo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(opis);
+        dest.writeString(vreme);
         dest.writeByte((byte) (isDone ? 0x01 : 0x00));
     }
 

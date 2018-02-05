@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class TodoListActivity extends AppCompatActivity {
@@ -30,6 +32,7 @@ public class TodoListActivity extends AppCompatActivity {
     private ArrayList<Todo> todoList;
     private RecyclerView recyclerView;
     private TodoAdapter todoAdapter;
+    String todoVreme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +47,7 @@ public class TodoListActivity extends AppCompatActivity {
             todoList = new ArrayList<>();
             todoList.add(new Todo("kolica", "zenska", true));
             todoList.add(new Todo("sok", "Pepsi", true));
-//            todoList.add(new Todo("plazma"));
-//            todoList.add(new Todo("guarana"));
-//            todoList.add(new Todo("maslac"));
-//            todoList.add(new Todo("mleko", true));
-//            todoList.add(new Todo("brasno"));
-//            todoList.add(new Todo("sapun"));
-//            todoList.add(new Todo("kolica 1"));
-//            todoList.add(new Todo("sok 1", true));
-//            todoList.add(new Todo("plazma 1"));
-//            todoList.add(new Todo("guarana 1", true));
-//            todoList.add(new Todo("maslac 1"));
-//            todoList.add(new Todo("mleko 1", true));
-//            todoList.add(new Todo("brasno 1", true));
-//            todoList.add(new Todo("sapun 1"));
+
             todoAdapter = new TodoAdapter(todoList);
             recyclerView.setAdapter(todoAdapter);
         }
@@ -84,15 +74,26 @@ public class TodoListActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String todoTitle = data.getStringExtra("todoTitle");
                 String todoOpis = data.getStringExtra("todoOpis");
+                todoVreme = data.getStringExtra("todoVreme");
                 Log.d(TAG, "stigao mi je resultat: " + todoTitle);
-                Todo todo = new Todo(todoTitle, todoOpis);
+                Todo todo = new Todo(todoTitle, todoOpis, todoVreme);
                 showNotification();
+                postaviAlarm();
                 todoList.add(todo);
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+
+    }
+
+    private void postaviAlarm() {
+        AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(TodoListActivity.this, Alarm.class);
+        Long vreme = new GregorianCalendar().getTimeInMillis()+5*1000;
+
+        manager.set(AlarmManager.RTC_WAKEUP, vreme, PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
     }
 

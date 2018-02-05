@@ -40,6 +40,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         final Todo todo = todoList.get(position);
         holder.titleTextView.setText(todo.getTitle());
         holder.opisTextView.setText(todo.getOpis());
+        holder.vremeTextView.setText(todo.getVreme());
         holder.isDoneCheckBox.setTag(position);
         holder.isDoneCheckBox.setChecked(todo.isDone());
     }
@@ -52,6 +53,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     static class TodoViewHolder extends RecyclerView.ViewHolder {
         private TextView titleTextView;
         private TextView opisTextView;
+        private TextView vremeTextView;
         private CheckBox isDoneCheckBox;
 
         public TodoViewHolder(View itemView) {
@@ -59,6 +61,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
             isDoneCheckBox = itemView.findViewById(R.id.todo_done_checkbox);
             titleTextView = itemView.findViewById(R.id.todo_title);
             opisTextView = itemView.findViewById(R.id.todo_opis);
+            vremeTextView = itemView.findViewById(R.id.todo_vreme);
         }
     }
 }
