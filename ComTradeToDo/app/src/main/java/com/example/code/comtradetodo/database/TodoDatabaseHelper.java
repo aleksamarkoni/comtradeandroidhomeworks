@@ -10,7 +10,7 @@ public class TodoDatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Todo.db";
 
     public static final String CREATE_TABLE_TODO = "CREATE TABLE " + TodoContract.Todo.TABLE_NAME + " (" +
-            TodoContract.Todo._ID + " primary key autoincrement not null unique," +
+            TodoContract.Todo._ID + " integer primary key autoincrement not null unique," +
             TodoContract.Todo.TITLE + " text not null," +
             TodoContract.Todo.DESCRIPTION + " text," +
             TodoContract.Todo.ALARM_TIME + " numeric," +

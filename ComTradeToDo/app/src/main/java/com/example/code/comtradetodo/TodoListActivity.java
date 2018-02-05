@@ -1,17 +1,15 @@
 package com.example.code.comtradetodo;
 
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,9 +17,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.example.code.comtradetodo.database.TodoContract;
+import com.example.code.comtradetodo.database.TodoDatabaseHelper;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class TodoListActivity extends AppCompatActivity {
 
@@ -33,12 +33,19 @@ public class TodoListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TodoAdapter todoAdapter;
 
+    private TodoDatabaseHelper todoDatabaseHelper;
+    private SQLiteDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        todoDatabaseHelper = new TodoDatabaseHelper(this);
+        database = todoDatabaseHelper.getWritableDatabase();
+
 
         recyclerView = findViewById(R.id.todo_recycler_view);
 
@@ -100,7 +107,11 @@ public class TodoListActivity extends AppCompatActivity {
     }
 
     private void addTodoToDatabase(Todo todo) {
-        
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TodoContract.Todo.TITLE, todo.getTitle());
+        contentValues.put(TodoContract.Todo.DONE, todo.isDone() ? 1 : 0);
+
+        database.insert(TodoContract.Todo.TABLE_NAME, null, contentValues);
     }
 
     @Override
