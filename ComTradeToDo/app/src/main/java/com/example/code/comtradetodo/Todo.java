@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class Todo implements Parcelable {
     private String title;
     private boolean isDone;
+    //TODO domaci 2.2.2018 ovde dodati hour i min promenljive i odgovarajuce setere i geters 1 poen
 
     public Todo(String title) {
         this.title = title;
