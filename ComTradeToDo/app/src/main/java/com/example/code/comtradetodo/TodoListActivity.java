@@ -91,11 +91,16 @@ public class TodoListActivity extends AppCompatActivity {
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
                 //TODO ako todo ima notification time, upaliti alarm, koji ce prikazati notifikaciju sa titlom todo-a;
                 showNotificationWithAlarm(todo);
+                addTodoToDatabase(todo);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
 
+    }
+
+    private void addTodoToDatabase(Todo todo) {
+        
     }
 
     @Override
@@ -123,8 +128,8 @@ public class TodoListActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, MyReceiver.class);
         intent.putExtra("todo", todo);
-        int hour = 20;
-        int min = 54;
+        int hour = 18;
+        int min = 44;
         final Calendar c = Calendar.getInstance();
         int curHour = c.get(Calendar.HOUR_OF_DAY);
         int curMin = c.get(Calendar.MINUTE);
