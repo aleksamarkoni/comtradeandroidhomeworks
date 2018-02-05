@@ -19,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.example.code.comtradetodo.database.TodoDatebaseHepler;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,12 +35,17 @@ public class TodoListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TodoAdapter todoAdapter;
 
+    private TodoDatebaseHepler todoDatebaseHepler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        todoDatebaseHepler = new TodoDatebaseHepler(this);
+        database
 
         recyclerView = findViewById(R.id.todo_recycler_view);
 
