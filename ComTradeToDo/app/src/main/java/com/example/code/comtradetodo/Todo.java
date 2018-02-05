@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Todo implements Parcelable {
+    //TODO dodati int polje koje predstavnja red ovog todo-a u bazi
+    //TODO updejtovati parcelable i get i set methode 1 poen
     private String title;
     private boolean isDone;
     //TODO domaci 2.2.2018 ovde dodati hour i min promenljive i odgovarajuce setere i geters 1 poen

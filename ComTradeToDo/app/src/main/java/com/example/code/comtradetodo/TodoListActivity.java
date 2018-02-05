@@ -24,7 +24,7 @@ import com.example.code.comtradetodo.database.TodoDatabaseHelper;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class TodoListActivity extends AppCompatActivity {
+public class TodoListActivity extends AppCompatActivity implements TodoAdapter.OnTodoDoneListener {
 
     private static final String TODO_LIST_BUNDLE_KEY = "todo_list_bundle_key";
     private static final int ADD_EDIT_ACTIVITY_REQUEST_CODE = 10;
@@ -52,7 +52,7 @@ public class TodoListActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             readTodosFromDatabase();
-            todoAdapter = new TodoAdapter(todoList);
+            todoAdapter = new TodoAdapter(todoList, this);
             recyclerView.setAdapter(todoAdapter);
         }
 
@@ -85,6 +85,8 @@ public class TodoListActivity extends AppCompatActivity {
             String title = cursor.getString(cursor.getColumnIndexOrThrow(TodoContract.Todo.TITLE));
             int done = cursor.getInt(cursor.getColumnIndexOrThrow(TodoContract.Todo.DONE));
             Todo todo = new Todo(title, done == 1);
+            //TODO izvuci id is cursora i setovati id u todo, 1 poen
+            //TODO izvuci description is databas-a i postaviti na todo item
             todoList.add(todo);
         }
         cursor.close();
@@ -119,6 +121,7 @@ public class TodoListActivity extends AppCompatActivity {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TodoContract.Todo.TITLE, todo.getTitle());
         contentValues.put(TodoContract.Todo.DONE, todo.isDone() ? 1 : 0);
+        //TODO save description of the todo to the database
 
         database.insert(TodoContract.Todo.TABLE_NAME, null, contentValues);
     }
@@ -139,7 +142,7 @@ public class TodoListActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            todoAdapter = new TodoAdapter(todoList);
+            todoAdapter = new TodoAdapter(todoList, this);
             recyclerView.setAdapter(todoAdapter);
         }
     }
@@ -161,5 +164,14 @@ public class TodoListActivity extends AppCompatActivity {
             alarmManager.setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + fromNow * 60 * 1000, pendingIntent);
             Log.d(TAG, "Alarm created");
         }
+    }
+
+    @Override
+    public void onDoneClicked(Todo todo) {
+        //TODO pokusati da updejtujete item u databasu.
+        //TODO creirati novi ContentsValue u njega ubaciti nove vrednosti
+        //TODO i onda pozvati database.update(....)
+        //TODO https://developer.android.com/training/data-storage/sqlite.html#WriteDbRow
+        //TODO poena 5
     }
 }
