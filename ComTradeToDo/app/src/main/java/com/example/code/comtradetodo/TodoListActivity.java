@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -50,23 +51,7 @@ public class TodoListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.todo_recycler_view);
 
         if (savedInstanceState == null) {
-            todoList = new ArrayList<>();
-            todoList.add(new Todo("kolica", true));
-            todoList.add(new Todo("sok", true));
-//            todoList.add(new Todo("plazma"));
-//            todoList.add(new Todo("guarana"));
-//            todoList.add(new Todo("maslac"));
-//            todoList.add(new Todo("mleko", true));
-//            todoList.add(new Todo("brasno"));
-//            todoList.add(new Todo("sapun"));
-//            todoList.add(new Todo("kolica 1"));
-//            todoList.add(new Todo("sok 1", true));
-//            todoList.add(new Todo("plazma 1"));
-//            todoList.add(new Todo("guarana 1", true));
-//            todoList.add(new Todo("maslac 1"));
-//            todoList.add(new Todo("mleko 1", true));
-//            todoList.add(new Todo("brasno 1", true));
-//            todoList.add(new Todo("sapun 1"));
+            readTodosFromDatabase();
             todoAdapter = new TodoAdapter(todoList);
             recyclerView.setAdapter(todoAdapter);
         }
@@ -79,6 +64,30 @@ public class TodoListActivity extends AppCompatActivity {
                 openAddEditActivity();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        database.close();
+        super.onDestroy();
+    }
+
+    private void readTodosFromDatabase() {
+        todoList = new ArrayList<>();
+        String colums[] = {
+                TodoContract.Todo._ID,
+                TodoContract.Todo.TITLE,
+                TodoContract.Todo.DONE
+        };
+        Cursor cursor = database.query(TodoContract.Todo.TABLE_NAME,
+                colums, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            String title = cursor.getString(cursor.getColumnIndexOrThrow(TodoContract.Todo.TITLE));
+            int done = cursor.getInt(cursor.getColumnIndexOrThrow(TodoContract.Todo.DONE));
+            Todo todo = new Todo(title, done == 1);
+            todoList.add(todo);
+        }
+        cursor.close();
     }
 
     private void openAddEditActivity() {
