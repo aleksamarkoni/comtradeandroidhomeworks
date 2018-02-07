@@ -9,8 +9,8 @@
 
     <TextView
         android:id="@+id/todo_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="239dp"
+        android:layout_height="35dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="86dp"
         android:layout_marginStart="72dp"
@@ -30,23 +30,26 @@
         android:id="@+id/todo_done_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/hhmm"
-        android:layout_width="66dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
-        android:text="@string/hh_mm"
         android:gravity="center_vertical"
+        android:text="@string/hh_mm"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/todo_title"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,19 +57,19 @@
 
     <TextView
         android:id="@+id/someabout"
-        android:layout_width="0dp"
-        android:layout_height="19dp"
+        android:layout_width="295dp"
+        android:layout_height="23dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="72dp"
+        android:layout_marginStart="60dp"
         android:fontFamily="sans-serif"
+        android:gravity="center_vertical"
         android:minHeight="48dp"
         android:singleLine="true"
         android:text="@string/something_about_this_task"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 

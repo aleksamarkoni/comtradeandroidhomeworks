@@ -55,6 +55,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         private TextView titleTextView;
         private TextView aboutTextView;
         private CheckBox isDoneCheckBox;
+        private TextView timeTextview;
         //TODO dodati link za TextView koji prikazuje vremene 0 poena
 
         public TodoViewHolder(View itemView) {
@@ -62,6 +63,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
             isDoneCheckBox = itemView.findViewById(R.id.todo_done_checkbox);
             titleTextView = itemView.findViewById(R.id.todo_title);
             aboutTextView = itemView.findViewById(R.id.someabout);
+            timeTextview = itemView.findViewById(R.id.hhmm);
         }
     }
 }
