@@ -13,15 +13,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+
 public class AddEditTodoActivity extends AppCompatActivity implements TimePickerFragment.TimeSelectedListener {
 
+
+    private static final String TAG = AddEditTodoActivity.class.getSimpleName();
+    public static final String TODO_INTENT_KEY = "todo_intent_key";
 
     public TextView opisTextView;
     public TextView textView;
     public TextView vremeTextView;
     private int sati;
     private int minuti;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,23 +46,24 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
             }
         });
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CharSequence todoTitle = textView.getText();
                 CharSequence todoOpis = opisTextView.getText();
-                CharSequence todoVreme = vremeTextView.getText();
                 if (todoTitle == null) {
                     Snackbar.make(view, "Nisi nista ni uneo", Snackbar.LENGTH_SHORT).show();
                 } else if (todoTitle.length() == 0) {
                     Snackbar.make(view, "Prazan text", Snackbar.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent();
-                    intent.putExtra("todoTitle", todoTitle.toString());
-                    intent.putExtra("todoOpis", todoOpis.toString());
-                    intent.putExtra("todoVreme", todoVreme.toString());
+
+                    Todo todo = new Todo(todoTitle.toString());
+                    todo.setDescription(todoOpis.toString());
+                    todo.setAlarmHour(sati);
+                    todo.setAlarmMin(minuti);
+                    intent.putExtra(TODO_INTENT_KEY, todo);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -67,6 +71,7 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
         });
 
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -85,10 +90,12 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
 
     public void izaberiAlarm() {
         TimePickerFragment timePickerFragment = TimePickerFragment.getInstance(sati, minuti);
+
         timePickerFragment.show(getFragmentManager(), null);
     }
 
     @Override
+
     public void onTimeSelected(int sati, int minuti) {
         this.sati = sati;
         this.minuti = minuti;
@@ -96,6 +103,9 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
         vremeTextView.setText(text);
     }
 }
+
+
+
 
 
 
