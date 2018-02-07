@@ -21,6 +21,8 @@ import android.view.View;
 import com.example.code.comtradetodo.database.TodoContract;
 import com.example.code.comtradetodo.database.TodoDatabaseHelper;
 
+import org.threeten.bp.LocalTime;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -101,15 +103,16 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_EDIT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                String todoTitle = data.getStringExtra("todoTitle");
-                //TODO izvuci informacije o hour i min, i ubaciti ih u Todo item 1 poen
-                Log.d(TAG, "stigao mi je resultat: " + todoTitle);
-                Todo todo = new Todo(todoTitle);
+                Todo todo = data.getParcelableExtra(AddEditTodoActivity.TODO_INTENT_KEY);
+                long rowId = addTodoToDatabase(todo);
+                if (rowId != -1) {
+                    todo.setDatabaseId((int) rowId);
+                } else {
+                    //no-op
+                }
                 todoList.add(todo);
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
-                //TODO ako todo ima notification time, upaliti alarm, koji ce prikazati notifikaciju sa titlom todo-a;
                 showNotificationWithAlarm(todo);
-                addTodoToDatabase(todo);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -117,13 +120,13 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
 
     }
 
-    private void addTodoToDatabase(Todo todo) {
+    private long addTodoToDatabase(Todo todo) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TodoContract.Todo.TITLE, todo.getTitle());
         contentValues.put(TodoContract.Todo.DONE, todo.isDone() ? 1 : 0);
-        //TODO save description of the todo to the database
+        contentValues.put(TodoContract.Todo.DESCRIPTION, todo.getDescription());
 
-        database.insert(TodoContract.Todo.TABLE_NAME, null, contentValues);
+        return database.insert(TodoContract.Todo.TABLE_NAME, null, contentValues);
     }
 
     @Override
@@ -148,20 +151,24 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
     }
 
     public void showNotificationWithAlarm(Todo todo) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, MyReceiver.class);
-        intent.putExtra("todo", todo);
-        int hour = 18;
-        int min = 44;
-        final Calendar c = Calendar.getInstance();
-        int curHour = c.get(Calendar.HOUR_OF_DAY);
-        int curMin = c.get(Calendar.MINUTE);
-        int curTimeInMins = curHour * 60 + curMin;
-        int alarmTimeInMins = hour * 60 + min;
-        if (alarmTimeInMins > curTimeInMins) {
-            int fromNow = (alarmTimeInMins - curTimeInMins);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + fromNow * 60 * 1000, pendingIntent);
+        if (todo.shouldStartAlarm()) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, MyReceiver.class);
+            intent.putExtra("todo", todo);
+            LocalTime currentTime = LocalTime.now();
+            LocalTime alarmTime = LocalTime.of(todo.getAlarmHour(), todo.getAlarmMin());
+            int alarmTimeInMins = alarmTime.getHour() * 60 + alarmTime.getMinute();
+            int currentTimeInMins = currentTime.getHour() * 60 + currentTime.getMinute();
+            int time = 0;
+            if (alarmTime.isBefore(currentTime)) {
+                time = (alarmTimeInMins + 24 * 60) - currentTimeInMins;
+            } else {
+                time = alarmTimeInMins - currentTimeInMins;
+            }
+            PendingIntent pendingIntent = PendingIntent
+                    .getBroadcast(this, 0, intent, 0);
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME,
+                    SystemClock.elapsedRealtime() + time * 60 * 1000, pendingIntent);
             Log.d(TAG, "Alarm created");
         }
     }

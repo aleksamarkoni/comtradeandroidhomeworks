@@ -8,13 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class AddEditTodoActivity extends AppCompatActivity implements TimePickerFragment.TimeSelectedListener {
 
     private static final String TAG = AddEditTodoActivity.class.getSimpleName();
+    public static final String TODO_INTENT_KEY = "todo_intent_key";
 
     private int hour;
     private int min;
@@ -51,8 +50,11 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
                     Snackbar.make(view, "Prazan text", Snackbar.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent();
-                    intent.putExtra("todoTitle", todoTitle.toString());
-                    //TODO dodati u resultat i hour i min promenljive 1 poen
+                    Todo todo = new Todo(todoTitle.toString());
+                    todo.setDescription(""); //TODO dodati description polje sve sto treba
+                    todo.setAlarmHour(hour);
+                    todo.setAlarmMin(min);
+                    intent.putExtra(TODO_INTENT_KEY, todo);
                     setResult(RESULT_OK, intent);
                     finish();
                 }

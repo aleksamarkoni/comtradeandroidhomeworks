@@ -4,11 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Todo implements Parcelable {
-    //TODO dodati int polje koje predstavnja red ovog todo-a u bazi
-    //TODO updejtovati parcelable i get i set methode 1 poen
+    private int databaseId;
     private String title;
+    private String description;
     private boolean isDone;
-    //TODO domaci 2.2.2018 ovde dodati hour i min promenljive i odgovarajuce setere i geters 1 poen
+    private int alarmHour;
+    private int alarmMin;
 
     public Todo(String title) {
         this.title = title;
@@ -19,12 +20,28 @@ public class Todo implements Parcelable {
         this.isDone = isDone;
     }
 
+    public int getDatabaseId() {
+        return databaseId;
+    }
+
+    public void setDatabaseId(int databaseId) {
+        this.databaseId = databaseId;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isDone() {
@@ -35,9 +52,20 @@ public class Todo implements Parcelable {
         isDone = done;
     }
 
-    protected Todo(Parcel in) {
-        title = in.readString();
-        isDone = in.readByte() != 0x00;
+    public int getAlarmHour() {
+        return alarmHour;
+    }
+
+    public void setAlarmHour(int alarmHour) {
+        this.alarmHour = alarmHour;
+    }
+
+    public int getAlarmMin() {
+        return alarmMin;
+    }
+
+    public void setAlarmMin(int alarmMin) {
+        this.alarmMin = alarmMin;
     }
 
     @Override
@@ -47,15 +75,27 @@ public class Todo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeByte((byte) (isDone ? 0x01 : 0x00));
+        dest.writeInt(this.databaseId);
+        dest.writeString(this.title);
+        dest.writeString(this.description);
+        dest.writeByte(this.isDone ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.alarmHour);
+        dest.writeInt(this.alarmMin);
     }
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Todo> CREATOR = new Parcelable.Creator<Todo>() {
+    protected Todo(Parcel in) {
+        this.databaseId = in.readInt();
+        this.title = in.readString();
+        this.description = in.readString();
+        this.isDone = in.readByte() != 0;
+        this.alarmHour = in.readInt();
+        this.alarmMin = in.readInt();
+    }
+
+    public static final Creator<Todo> CREATOR = new Creator<Todo>() {
         @Override
-        public Todo createFromParcel(Parcel in) {
-            return new Todo(in);
+        public Todo createFromParcel(Parcel source) {
+            return new Todo(source);
         }
 
         @Override
@@ -63,4 +103,8 @@ public class Todo implements Parcelable {
             return new Todo[size];
         }
     };
+
+    public boolean shouldStartAlarm() {
+        return alarmHour != -1 && alarmMin != -1;
+    }
 }
