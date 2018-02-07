@@ -1,17 +1,16 @@
 package com.example.code.comtradetodo;
 
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,11 +18,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.example.code.comtradetodo.Utils.ParcelableUtil;
+import com.example.code.comtradetodo.database.TodoContract;
+import com.example.code.comtradetodo.database.TodoDatabaseHelper;
+
+import org.threeten.bp.LocalTime;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-public class TodoListActivity extends AppCompatActivity {
+public class TodoListActivity extends AppCompatActivity implements TodoAdapter.OnTodoDoneListener {
 
     private static final String TODO_LIST_BUNDLE_KEY = "todo_list_bundle_key";
     private static final int ADD_EDIT_ACTIVITY_REQUEST_CODE = 10;
@@ -33,6 +37,9 @@ public class TodoListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TodoAdapter todoAdapter;
 
+    private TodoDatabaseHelper todoDatabaseHelper;
+    private SQLiteDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,27 +47,15 @@ public class TodoListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        todoDatabaseHelper = new TodoDatabaseHelper(this);
+        database = todoDatabaseHelper.getWritableDatabase();
+
+
         recyclerView = findViewById(R.id.todo_recycler_view);
 
         if (savedInstanceState == null) {
-            todoList = new ArrayList<>();
-            todoList.add(new Todo("kolica", "kupi kolica",  false));
-            todoList.add(new Todo("sok", "kupi sok", true));
-//            todoList.add(new Todo("plazma"));
-//            todoList.add(new Todo("guarana"));
-//            todoList.add(new Todo("maslac"));
-//            todoList.add(new Todo("mleko", true));
-//            todoList.add(new Todo("brasno"));
-//            todoList.add(new Todo("sapun"));
-//            todoList.add(new Todo("kolica 1"));
-//            todoList.add(new Todo("sok 1", true));
-//            todoList.add(new Todo("plazma 1"));
-//            todoList.add(new Todo("guarana 1", true));
-//            todoList.add(new Todo("maslac 1"));
-//            todoList.add(new Todo("mleko 1", true));
-//            todoList.add(new Todo("brasno 1", true));
-//            todoList.add(new Todo("sapun 1"));
-            todoAdapter = new TodoAdapter(todoList);
+            readTodosFromDatabase();
+            todoAdapter = new TodoAdapter(todoList, this);
             recyclerView.setAdapter(todoAdapter);
         }
 
@@ -74,6 +69,32 @@ public class TodoListActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        database.close();
+        super.onDestroy();
+    }
+
+    private void readTodosFromDatabase() {
+        todoList = new ArrayList<>();
+        String colums[] = {
+                TodoContract.Todo._ID,
+                TodoContract.Todo.TITLE,
+                TodoContract.Todo.DONE
+        };
+        Cursor cursor = database.query(TodoContract.Todo.TABLE_NAME,
+                colums, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            String title = cursor.getString(cursor.getColumnIndexOrThrow(TodoContract.Todo.TITLE));
+            int done = cursor.getInt(cursor.getColumnIndexOrThrow(TodoContract.Todo.DONE));
+            Todo todo = new Todo(title, done == 1);
+            //TODO izvuci id is cursora i setovati id u todo, 1 poen
+            //TODO izvuci description is databas-a i postaviti na todo item
+            todoList.add(todo);
+        }
+        cursor.close();
+    }
+
     private void openAddEditActivity() {
         Intent intent = new Intent(this, AddEditTodoActivity.class);
         startActivityForResult(intent, ADD_EDIT_ACTIVITY_REQUEST_CODE);
@@ -83,25 +104,30 @@ public class TodoListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_EDIT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                String todoTitle = data.getStringExtra("todoTitle");
-                String todoHh = data.getStringExtra("todoHh");
-                String todoMm = data.getStringExtra("todoMm");
-
-                //TODO izvuci informacije o hour i min, i ubaciti ih u Todo item 1 poen
-
-                String todoAbout = data.getStringExtra("todoAbout");
-
-                Log.d(TAG, "stigao mi je resultat: " + todoTitle);
-                Todo todo = new Todo(todoTitle, todoAbout, todoMm, todoHh);
+                Todo todo = data.getParcelableExtra(AddEditTodoActivity.TODO_INTENT_KEY);
+                long rowId = addTodoToDatabase(todo);
+                if (rowId != -1) {
+                    todo.setDatabaseId((int) rowId);
+                } else {
+                    //no-op
+                }
                 todoList.add(todo);
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
-                //TODO ako todo ima notification time, upaliti alarm, koji ce prikazati notifikaciju sa titlom todo-a;
                 showNotificationWithAlarm(todo);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
 
+    }
+
+    private long addTodoToDatabase(Todo todo) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TodoContract.Todo.TITLE, todo.getTitle());
+        contentValues.put(TodoContract.Todo.DONE, todo.isDone() ? 1 : 0);
+        contentValues.put(TodoContract.Todo.DESCRIPTION, todo.getDescription());
+
+        return database.insert(TodoContract.Todo.TABLE_NAME, null, contentValues);
     }
 
     @Override
@@ -120,27 +146,41 @@ public class TodoListActivity extends AppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            todoAdapter = new TodoAdapter(todoList);
+            todoAdapter = new TodoAdapter(todoList, this);
             recyclerView.setAdapter(todoAdapter);
         }
     }
 
     public void showNotificationWithAlarm(Todo todo) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, MyReceiver.class);
-        intent.putExtra("todo", todo);
-        int hour = 20;
-        int min = 54;
-        final Calendar c = Calendar.getInstance();
-        int curHour = c.get(Calendar.HOUR_OF_DAY);
-        int curMin = c.get(Calendar.MINUTE);
-        int curTimeInMins = curHour * 60 + curMin;
-        int alarmTimeInMins = hour * 60 + min;
-        if (alarmTimeInMins > curTimeInMins) {
-            int fromNow = (alarmTimeInMins - curTimeInMins);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + fromNow * 60 * 1000, pendingIntent);
+        if (todo.shouldStartAlarm()) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, MyReceiver.class);
+            intent.putExtra("todo", ParcelableUtil.marshall(todo));
+            LocalTime currentTime = LocalTime.now();
+            LocalTime alarmTime = LocalTime.of(todo.getAlarmHour(), todo.getAlarmMin());
+            int alarmTimeInMins = alarmTime.getHour() * 60 + alarmTime.getMinute();
+            int currentTimeInMins = currentTime.getHour() * 60 + currentTime.getMinute();
+            int time = 0;
+            if (alarmTime.isBefore(currentTime)) {
+                time = (alarmTimeInMins + 24 * 60) - currentTimeInMins;
+            } else {
+                time = alarmTimeInMins - currentTimeInMins;
+            }
+            time = 0;
+            PendingIntent pendingIntent = PendingIntent
+                    .getBroadcast(this, 0, intent, 0);
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME,
+                    SystemClock.elapsedRealtime() + time * 60 * 1000, pendingIntent);
             Log.d(TAG, "Alarm created");
         }
+    }
+
+    @Override
+    public void onDoneClicked(Todo todo) {
+        //TODO pokusati da updejtujete item u databasu.
+        //TODO creirati novi ContentsValue u njega ubaciti nove vrednosti
+        //TODO i onda pozvati database.update(....)
+        //TODO https://developer.android.com/training/data-storage/sqlite.html#WriteDbRow
+        //TODO poena 5
     }
 }

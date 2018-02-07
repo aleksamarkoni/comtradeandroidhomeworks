@@ -13,9 +13,15 @@ import java.util.List;
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder> {
 
     private List<Todo> todoList;
+    private OnTodoDoneListener onTodoDoneListener;
 
-    public TodoAdapter(List<Todo> todoList) {
+    public TodoAdapter(List<Todo> todoList, OnTodoDoneListener onTodoDoneListener) {
         this.todoList = todoList;
+        this.onTodoDoneListener = onTodoDoneListener;
+    }
+
+    public interface OnTodoDoneListener {
+        void onDoneClicked(Todo todo);
     }
 
     @Override
@@ -29,6 +35,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
                 int position = (Integer) buttonView.getTag();
                 Todo todo = todoList.get(position);
                 todo.setDone(isChecked);
+                if (onTodoDoneListener != null) {
+                    onTodoDoneListener.onDoneClicked(todo);
+                }
             }
         });
 

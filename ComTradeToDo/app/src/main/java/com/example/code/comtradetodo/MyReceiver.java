@@ -10,6 +10,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 
+import com.example.code.comtradetodo.Utils.ParcelableUtil;
+
 public class MyReceiver extends BroadcastReceiver {
 
     private static final String TAG = MyReceiver.class.getSimpleName();
@@ -17,7 +19,8 @@ public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "Upalio se alarm i to je to");
-        Todo todo = intent.getParcelableExtra("todo");
+        byte[] todoByte = intent.getByteArrayExtra("todo");
+        Todo todo = ParcelableUtil.unmarshall(todoByte, Todo.CREATOR);
         showNotificationOnClick(context, todo);
     }
 

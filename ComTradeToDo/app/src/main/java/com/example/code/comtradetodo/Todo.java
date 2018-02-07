@@ -1,29 +1,21 @@
 package com.example.code.comtradetodo;
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Todo implements Parcelable {
     private int databaseId;
     private String title;
-    private String about;
-    private int hh;
-    private int mm;
+    private String description;
     private boolean isDone;
-    //TODO domaci 2.2.2018 ovde dodati hour i min promenljive i odgovarajuce setere i geters 1 poen
+    private int alarmHour;
+    private int alarmMin;
 
-    public Todo(String title, String about, int hh, int mm) {
-        this.hh = hh;
-        this.mm = mm;
+    public Todo(String title) {
         this.title = title;
-        this.about = about;
     }
 
-    public Todo(String title, String about, int hh, int mm, boolean isDone) {
-        this.hh = hh;
-        this.mm = mm;
-        this.about = about;
+    public Todo(String title, boolean isDone) {
         this.title = title;
         this.isDone = isDone;
     }
@@ -32,30 +24,49 @@ public class Todo implements Parcelable {
         return databaseId;
     }
 
+    public void setDatabaseId(int databaseId) {
+        this.databaseId = databaseId;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    public String getAbout() {
-        return about;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getHh() {
-        return hh;
+    public String getDescription() {
+        return description;
     }
 
-    public int getMm() {
-        return mm;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isDone() {
         return isDone;
     }
 
-    public void setDatabaseId(int databaseId) {
-        this.databaseId = databaseId;
+    public void setDone(boolean done) {
+        isDone = done;
     }
 
+    public int getAlarmHour() {
+        return alarmHour;
+    }
+
+    public void setAlarmHour(int alarmHour) {
+        this.alarmHour = alarmHour;
+    }
+
+    public int getAlarmMin() {
+        return alarmMin;
+    }
+
+    public void setAlarmMin(int alarmMin) {
+        this.alarmMin = alarmMin;
+    }
 
     @Override
     public int describeContents() {
@@ -66,19 +77,19 @@ public class Todo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.databaseId);
         dest.writeString(this.title);
-        dest.writeString(this.about);
-        dest.writeInt(this.hh);
-        dest.writeInt(this.mm);
+        dest.writeString(this.description);
         dest.writeByte(this.isDone ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.alarmHour);
+        dest.writeInt(this.alarmMin);
     }
 
     protected Todo(Parcel in) {
         this.databaseId = in.readInt();
         this.title = in.readString();
-        this.about = in.readString();
-        this.hh = in.readInt();
-        this.mm = in.readInt();
+        this.description = in.readString();
         this.isDone = in.readByte() != 0;
+        this.alarmHour = in.readInt();
+        this.alarmMin = in.readInt();
     }
 
     public static final Creator<Todo> CREATOR = new Creator<Todo>() {
@@ -92,4 +103,8 @@ public class Todo implements Parcelable {
             return new Todo[size];
         }
     };
+
+    public boolean shouldStartAlarm() {
+        return alarmHour != -1 && alarmMin != -1;
+    }
 }
