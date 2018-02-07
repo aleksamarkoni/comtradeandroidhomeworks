@@ -78,7 +78,6 @@ public class TodoListActivity extends AppCompatActivity {
                 Log.d(TAG, "stigao mi je resultat: " + todoTitle);
                 Todo todo = new Todo(todoTitle, todoOpis, todoVreme);
                 showNotification();
-                postaviAlarm();
                 todoList.add(todo);
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
             }
@@ -88,14 +87,7 @@ public class TodoListActivity extends AppCompatActivity {
 
     }
 
-    private void postaviAlarm() {
-        AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(TodoListActivity.this, Alarm.class);
-        Long vreme = new GregorianCalendar().getTimeInMillis()+5*1000;
 
-        manager.set(AlarmManager.RTC_WAKEUP, vreme, PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT));
-
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
