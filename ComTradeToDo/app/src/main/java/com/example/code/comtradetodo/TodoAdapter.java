@@ -56,7 +56,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         private TextView aboutTextView;
         private CheckBox isDoneCheckBox;
         private TextView timeTextview;
-        //TODO dodati link za TextView koji prikazuje vremene 0 poena
+        // dodati link za TextView koji prikazuje vremene 0 poena
 
         public TodoViewHolder(View itemView) {
             super(itemView);

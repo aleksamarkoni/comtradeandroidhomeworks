@@ -7,15 +7,21 @@ import android.os.Parcelable;
 public class Todo implements Parcelable {
     private String title;
     private String about;
+    private String hh;
+    private String mm;
     private boolean isDone;
     //TODO domaci 2.2.2018 ovde dodati hour i min promenljive i odgovarajuce setere i geters 1 poen
 
-    public Todo(String title, String about) {
+    public Todo(String title, String about, String hh, String mm) {
+        this.hh = hh;
+        this.mm = mm;
         this.title = title;
         this.about = about;
     }
 
-    public Todo(String title, String about, boolean isDone) {
+    public Todo(String title, String about, String hh, String mm, boolean isDone) {
+        this.hh = hh;
+        this.mm = mm;
         this.about = about;
         this.title = title;
         this.isDone = isDone;
@@ -29,6 +35,14 @@ public class Todo implements Parcelable {
         return about;
     }
 
+    public String getHh() {
+        return hh;
+    }
+
+    public String getMm() {
+        return mm;
+    }
+
 
     public void setTitle(String title) {
         this.title = title;
@@ -36,6 +50,14 @@ public class Todo implements Parcelable {
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    public void setHh(String hh) {
+        this.hh = hh;
+    }
+
+    public void setMm(String mm) {
+        this.mm = mm;
     }
 
     public boolean isDone() {
@@ -49,6 +71,8 @@ public class Todo implements Parcelable {
     protected Todo(Parcel in) {
         title = in.readString();
         about = in.readString();
+        hh = in.readString();
+        mm = in.readString();
         isDone = in.readByte() != 0x00;
     }
 
@@ -59,6 +83,8 @@ public class Todo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(hh);
+        dest.writeString(mm);
         dest.writeString(title);
         dest.writeString(about);
         dest.writeByte((byte) (isDone ? 0x01 : 0x00));

@@ -53,7 +53,7 @@
         app:layout_constraintStart_toEndOf="@+id/todo_title"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--//TODO ovde u gornjoj desnoj strani, ako postoji notification, dodati hour i min kada ce doci notification, 2 poena -->
+    <!--//ovde u gornjoj desnoj strani, ako postoji notification, dodati hour i min kada ce doci notification, 2 poena -->
 
     <TextView
         android:id="@+id/someabout"

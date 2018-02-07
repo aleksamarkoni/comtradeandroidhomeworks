@@ -44,8 +44,8 @@ public class TodoListActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             todoList = new ArrayList<>();
-            todoList.add(new Todo("kolica", "kupi kolica", false));
-            todoList.add(new Todo("sok", "kupi sok", true));
+            todoList.add(new Todo("kolica", "kupi kolica", "11", "11", false));
+            todoList.add(new Todo("sok", "kupi sok", "11", "11", true));
 //            todoList.add(new Todo("plazma"));
 //            todoList.add(new Todo("guarana"));
 //            todoList.add(new Todo("maslac"));
@@ -84,13 +84,15 @@ public class TodoListActivity extends AppCompatActivity {
         if (requestCode == ADD_EDIT_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 String todoTitle = data.getStringExtra("todoTitle");
+                String todoHh = data.getStringExtra("todoHh");
+                String todoMm = data.getStringExtra("todoMm");
 
                 //TODO izvuci informacije o hour i min, i ubaciti ih u Todo item 1 poen
 
                 String todoAbout = data.getStringExtra("todoAbout");
 
                 Log.d(TAG, "stigao mi je resultat: " + todoTitle);
-                Todo todo = new Todo(todoTitle, todoAbout);
+                Todo todo = new Todo(todoTitle, todoAbout, todoMm, todoHh);
                 todoList.add(todo);
                 todoAdapter.notifyItemInserted(todoList.size() - 1);
                 //TODO ako todo ima notification time, upaliti alarm, koji ce prikazati notifikaciju sa titlom todo-a;
