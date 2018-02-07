@@ -56,6 +56,8 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
                     Snackbar.make(view, "Prazan text u Title", Snackbar.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent();
+                    Todo todo = new Todo(todoTitle.toString());
+                    Todo todo = new Todo(todoAbout.toString());
                     intent.putExtra("todoTitle", todoTitle.toString());
                     //TODO dodati u resultat i hour i min promenljive 1 poen
                     intent.putExtra("todoAbout", todoAbout.toString());

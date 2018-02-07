@@ -5,26 +5,31 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Todo implements Parcelable {
+    private int databaseId;
     private String title;
     private String about;
-    private String hh;
-    private String mm;
+    private int hh;
+    private int mm;
     private boolean isDone;
     //TODO domaci 2.2.2018 ovde dodati hour i min promenljive i odgovarajuce setere i geters 1 poen
 
-    public Todo(String title, String about, String hh, String mm) {
+    public Todo(String title, String about, int hh, int mm) {
         this.hh = hh;
         this.mm = mm;
         this.title = title;
         this.about = about;
     }
 
-    public Todo(String title, String about, String hh, String mm, boolean isDone) {
+    public Todo(String title, String about, int hh, int mm, boolean isDone) {
         this.hh = hh;
         this.mm = mm;
         this.about = about;
         this.title = title;
         this.isDone = isDone;
+    }
+
+    public int getDatabaseId() {
+        return databaseId;
     }
 
     public String getTitle() {
@@ -35,46 +40,22 @@ public class Todo implements Parcelable {
         return about;
     }
 
-    public String getHh() {
+    public int getHh() {
         return hh;
     }
 
-    public String getMm() {
+    public int getMm() {
         return mm;
-    }
-
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    public void setHh(String hh) {
-        this.hh = hh;
-    }
-
-    public void setMm(String mm) {
-        this.mm = mm;
     }
 
     public boolean isDone() {
         return isDone;
     }
 
-    public void setDone(boolean done) {
-        isDone = done;
+    public void setDatabaseId(int databaseId) {
+        this.databaseId = databaseId;
     }
 
-    protected Todo(Parcel in) {
-        title = in.readString();
-        about = in.readString();
-        hh = in.readString();
-        mm = in.readString();
-        isDone = in.readByte() != 0x00;
-    }
 
     @Override
     public int describeContents() {
@@ -83,18 +64,27 @@ public class Todo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(hh);
-        dest.writeString(mm);
-        dest.writeString(title);
-        dest.writeString(about);
-        dest.writeByte((byte) (isDone ? 0x01 : 0x00));
+        dest.writeInt(this.databaseId);
+        dest.writeString(this.title);
+        dest.writeString(this.about);
+        dest.writeInt(this.hh);
+        dest.writeInt(this.mm);
+        dest.writeByte(this.isDone ? (byte) 1 : (byte) 0);
     }
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Todo> CREATOR = new Parcelable.Creator<Todo>() {
+    protected Todo(Parcel in) {
+        this.databaseId = in.readInt();
+        this.title = in.readString();
+        this.about = in.readString();
+        this.hh = in.readInt();
+        this.mm = in.readInt();
+        this.isDone = in.readByte() != 0;
+    }
+
+    public static final Creator<Todo> CREATOR = new Creator<Todo>() {
         @Override
-        public Todo createFromParcel(Parcel in) {
-            return new Todo(in);
+        public Todo createFromParcel(Parcel source) {
+            return new Todo(source);
         }
 
         @Override
