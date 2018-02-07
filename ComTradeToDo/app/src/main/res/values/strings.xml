@@ -11,4 +11,5 @@
     <string name="something_about_this_task">Something about this task</string>
     <string name="about_title">About Title</string>
     <string name="click_to_set_notification_time">click to set notification time</string>
+    <string name="hh_mm">hh_mm</string>
 </resources>

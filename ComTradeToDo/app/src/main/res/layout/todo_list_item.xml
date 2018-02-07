@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="86dp"
         android:layout_marginStart="72dp"
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
@@ -35,23 +35,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/hhmm"
+        android:layout_width="66dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/hh_mm"
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/todo_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!--//TODO ovde u gornjoj desnoj strani, ako postoji notification, dodati hour i min kada ce doci notification, 2 poena -->
 
     <TextView
         android:id="@+id/someabout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="72dp"
         android:fontFamily="sans-serif"
-        android:textSize="14sp"
         android:minHeight="48dp"
         android:singleLine="true"
         android:text="@string/something_about_this_task"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
 
 </android.support.constraint.ConstraintLayout>
