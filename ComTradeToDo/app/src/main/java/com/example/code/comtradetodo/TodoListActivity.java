@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.example.code.comtradetodo.Utils.ParcelableUtil;
 import com.example.code.comtradetodo.database.TodoContract;
 import com.example.code.comtradetodo.database.TodoDatabaseHelper;
 
@@ -154,7 +155,7 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         if (todo.shouldStartAlarm()) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, MyReceiver.class);
-            intent.putExtra("todo", todo);
+            intent.putExtra("todo", ParcelableUtil.marshall(todo));
             LocalTime currentTime = LocalTime.now();
             LocalTime alarmTime = LocalTime.of(todo.getAlarmHour(), todo.getAlarmMin());
             int alarmTimeInMins = alarmTime.getHour() * 60 + alarmTime.getMinute();
@@ -165,6 +166,7 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
             } else {
                 time = alarmTimeInMins - currentTimeInMins;
             }
+            time = 0;
             PendingIntent pendingIntent = PendingIntent
                     .getBroadcast(this, 0, intent, 0);
             alarmManager.setExact(AlarmManager.ELAPSED_REALTIME,
