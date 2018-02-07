@@ -39,6 +39,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     public void onBindViewHolder(final TodoViewHolder holder, int position) {
         final Todo todo = todoList.get(position);
         holder.titleTextView.setText(todo.getTitle());
+        holder.aboutTextView.setText(todo.getAbout());
         holder.isDoneCheckBox.setTag(position);
         holder.isDoneCheckBox.setChecked(todo.isDone());
         //TODO ovde podesiti vreme na text view, prvo proveriti da li uopste treba da se podesi vreme
@@ -52,6 +53,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
 
     static class TodoViewHolder extends RecyclerView.ViewHolder {
         private TextView titleTextView;
+        private TextView aboutTextView;
         private CheckBox isDoneCheckBox;
         //TODO dodati link za TextView koji prikazuje vremene 0 poena
 
@@ -59,6 +61,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
             super(itemView);
             isDoneCheckBox = itemView.findViewById(R.id.todo_done_checkbox);
             titleTextView = itemView.findViewById(R.id.todo_title);
+            aboutTextView = itemView.findViewById(R.id.someabout);
         }
     }
 }

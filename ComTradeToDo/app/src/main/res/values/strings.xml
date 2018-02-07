@@ -9,4 +9,6 @@
     <string name="textview">TextView</string>
     <string name="about_task">About_Task</string>
     <string name="something_about_this_task">Something about this task</string>
+    <string name="about_title">About Title</string>
+    <string name="click_to_set_notification_time">click to set notification time</string>
 </resources>

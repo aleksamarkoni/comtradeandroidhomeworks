@@ -31,7 +31,9 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
         hour = -1;
         min = -1;
 
-        final TextView textView = findViewById(R.id.edit_text_add_edit_activity_title_text_view);
+        final TextView textViewT = findViewById(R.id.edit_text_add_edit_activity_title_text_view);
+        final TextView textViewA = findViewById(R.id.edit_about);
+
         alarmTextView = findViewById(R.id.alarm_time_edit_text);
         alarmTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,18 +46,25 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CharSequence todoTitle = textView.getText();
+
+                CharSequence todoTitle = textViewT.getText();
+                CharSequence todoAbout = textViewA.getText();
+
                 if (todoTitle == null) {
-                    Snackbar.make(view, "Nisi nista ni uneo", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Nisi nista ni uneo u Title", Snackbar.LENGTH_SHORT).show();
                 } else if (todoTitle.length() == 0) {
-                    Snackbar.make(view, "Prazan text", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Prazan text u Title", Snackbar.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent();
                     intent.putExtra("todoTitle", todoTitle.toString());
                     //TODO dodati u resultat i hour i min promenljive 1 poen
+                    intent.putExtra("todoAbout", todoAbout.toString());
                     setResult(RESULT_OK, intent);
                     finish();
+
                 }
+
+
             }
         });
     }
