@@ -125,7 +125,7 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         ContentValues contentValues = new ContentValues();
         contentValues.put(TodoContract.Todo.TITLE, todo.getTitle());
         contentValues.put(TodoContract.Todo.DONE, todo.isDone() ? 1 : 0);
-        contentValues.put(TodoContract.Todo.DESCRIPTION, todo.getDescription());
+        contentValues.put(TodoContract.Todo.DESCRIPTION, todo.getAbout());
 
         return database.insert(TodoContract.Todo.TABLE_NAME, null, contentValues);
     }

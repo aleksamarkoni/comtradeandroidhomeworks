@@ -56,7 +56,7 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
                 } else {
                     Intent intent = new Intent();
                     Todo todo = new Todo(todoTitle.toString());
-                    todo.setDescription(""); //TODO dodati description polje sve sto treba
+                    todo.setAbout(""); //TODO dodati description polje sve sto treba
                     todo.setAlarmHour(hour);
                     todo.setAlarmMin(min);
                     intent.putExtra(TODO_INTENT_KEY, todo);

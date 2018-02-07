@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class Todo implements Parcelable {
     private int databaseId;
     private String title;
-    private String description;
+    private String about;
     private boolean isDone;
     private int alarmHour;
     private int alarmMin;
@@ -36,12 +36,12 @@ public class Todo implements Parcelable {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAbout() {
+        return about;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAbout (String description) {
+        this.about = description;
     }
 
     public boolean isDone() {
@@ -77,7 +77,7 @@ public class Todo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.databaseId);
         dest.writeString(this.title);
-        dest.writeString(this.description);
+        dest.writeString(this.about);
         dest.writeByte(this.isDone ? (byte) 1 : (byte) 0);
         dest.writeInt(this.alarmHour);
         dest.writeInt(this.alarmMin);
@@ -86,7 +86,7 @@ public class Todo implements Parcelable {
     protected Todo(Parcel in) {
         this.databaseId = in.readInt();
         this.title = in.readString();
-        this.description = in.readString();
+        this.about = in.readString();
         this.isDone = in.readByte() != 0;
         this.alarmHour = in.readInt();
         this.alarmMin = in.readInt();
