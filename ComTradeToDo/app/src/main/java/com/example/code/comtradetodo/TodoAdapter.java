@@ -8,9 +8,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.example.code.comtradetodo.Utils.ItemTouchHelperAdapter;
+
+import java.util.Collections;
 import java.util.List;
 
-public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder> {
+public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder> implements ItemTouchHelperAdapter {
 
     private List<Todo> todoList;
     private OnTodoDoneListener onTodoDoneListener;
@@ -18,6 +21,26 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     public TodoAdapter(List<Todo> todoList, OnTodoDoneListener onTodoDoneListener) {
         this.todoList = todoList;
         this.onTodoDoneListener = onTodoDoneListener;
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(todoList, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(todoList, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        todoList.remove(position);
+        notifyItemRemoved(position);
     }
 
     public interface OnTodoDoneListener {
