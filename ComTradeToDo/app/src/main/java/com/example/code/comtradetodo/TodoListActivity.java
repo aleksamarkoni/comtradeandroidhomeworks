@@ -15,10 +15,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
 import com.example.code.comtradetodo.Utils.ParcelableUtil;
+import com.example.code.comtradetodo.Utils.SimpleItemTouchHelperCallback;
 import com.example.code.comtradetodo.database.TodoContract;
 import com.example.code.comtradetodo.database.TodoDatabaseHelper;
 
@@ -56,6 +58,9 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         if (savedInstanceState == null) {
             readTodosFromDatabase();
             todoAdapter = new TodoAdapter(todoList, this);
+            ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(todoAdapter);
+            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+            touchHelper.attachToRecyclerView(recyclerView);
             recyclerView.setAdapter(todoAdapter);
         }
 
@@ -80,16 +85,20 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         String colums[] = {
                 TodoContract.Todo._ID,
                 TodoContract.Todo.TITLE,
-                TodoContract.Todo.DONE
+                TodoContract.Todo.DONE,
+                TodoContract.Todo.DESCRIPTION
         };
         Cursor cursor = database.query(TodoContract.Todo.TABLE_NAME,
                 colums, null, null, null, null, null);
         while (cursor.moveToNext()) {
             String title = cursor.getString(cursor.getColumnIndexOrThrow(TodoContract.Todo.TITLE));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow(TodoContract.Todo.DESCRIPTION));
             int done = cursor.getInt(cursor.getColumnIndexOrThrow(TodoContract.Todo.DONE));
+            long databaseRow = cursor.getLong(cursor.getColumnIndexOrThrow(TodoContract.Todo._ID));
             Todo todo = new Todo(title, done == 1);
-            //TODO izvuci id is cursora i setovati id u todo, 1 poen
-            //TODO izvuci description is databas-a i postaviti na todo item
+            todo.setDatabaseId((int)databaseRow);
+            todo.setAbout(description);
+            //izvuci description is databas-a i postaviti na item
             todoList.add(todo);
         }
         cursor.close();
@@ -177,10 +186,28 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
 
     @Override
     public void onDoneClicked(Todo todo) {
-        //TODO pokusati da updejtujete item u databasu.
-        //TODO creirati novi ContentsValue u njega ubaciti nove vrednosti
-        //TODO i onda pozvati database.update(....)
-        //TODO https://developer.android.com/training/data-storage/sqlite.html#WriteDbRow
-        //TODO poena 5
+        ContentValues values = new ContentValues();
+        values.put(TodoContract.Todo.DONE, todo.isDone()? 1: 0);
+
+        SQLiteDatabase db = todoDatabaseHelper.getWritableDatabase();
+
+        String selection = TodoContract.Todo._ID + " = ? ";
+        String[] selectionArgs = {"" + todo.getDatabaseId()};
+
+        db.update(TodoContract.Todo.TABLE_NAME, values, selection, selectionArgs);
+
+        //sreirati novi ContentsValue u njega ubaciti nove vrednosti
+        //i onda pozvati database.update(....)
+        //https://developer.android.com/training/data-storage/sqlite.html#WriteDbRow
+        //poena 5
+    }
+
+    @Override
+    public void onItemRemove(int databaseID) {
+        String selection = TodoContract.Todo._ID + " = ? ";
+        String[] selectionArgs = {"" + databaseID};
+
+        SQLiteDatabase db = todoDatabaseHelper.getWritableDatabase();
+        db.delete(TodoContract.Todo.TABLE_NAME, selection, selectionArgs);
     }
 }
