@@ -39,12 +39,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
 
     @Override
     public void onItemDismiss(int position) {
-        todoList.remove(position);
+        Todo todo = todoList.remove(position);
+        onTodoDoneListener.onItemRemoved(todo.getDatabaseId());
         notifyItemRemoved(position);
     }
 
     public interface OnTodoDoneListener {
         void onDoneClicked(Todo todo);
+        void onItemRemoved(int databaseId);
     }
 
     @Override

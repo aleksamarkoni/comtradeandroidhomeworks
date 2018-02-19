@@ -194,4 +194,13 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         db.update(TodoContract.Todo.TABLE_NAME, values,
                 selection, selectionArgs);
     }
+
+    @Override
+    public void onItemRemoved(int databaseId) {
+        String selection = TodoContract.Todo._ID + " = ?";
+        String[] selectionArgs = { "" + databaseId };
+
+        SQLiteDatabase db = todoDatabaseHelper.getWritableDatabase();
+        db.delete(TodoContract.Todo.TABLE_NAME, selection, selectionArgs);
+    }
 }
