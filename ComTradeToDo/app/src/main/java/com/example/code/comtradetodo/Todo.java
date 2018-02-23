@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class Todo implements Parcelable {
     private int databaseId;
+    private String pictureFileUri;
     private String title;
     private String description;
     private boolean isDone;
@@ -73,9 +74,18 @@ public class Todo implements Parcelable {
         return 0;
     }
 
+    public String getPictureFileUri() {
+        return pictureFileUri;
+    }
+
+    public void setPictureFileUri(String pictureFileUri) {
+        this.pictureFileUri = pictureFileUri;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.databaseId);
+        dest.writeString(this.pictureFileUri);
         dest.writeString(this.title);
         dest.writeString(this.description);
         dest.writeByte(this.isDone ? (byte) 1 : (byte) 0);
@@ -85,6 +95,7 @@ public class Todo implements Parcelable {
 
     protected Todo(Parcel in) {
         this.databaseId = in.readInt();
+        this.pictureFileUri = in.readString();
         this.title = in.readString();
         this.description = in.readString();
         this.isDone = in.readByte() != 0;
