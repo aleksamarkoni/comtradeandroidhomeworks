@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ComTradeToDo.iml" filepath="$PROJECT_DIR$/ComTradeToDo.iml" />
-      <module fileurl="file://C:\Users\CODE\Desktop\danas\comtradeandroidhomeworks\ComTradeToDo\ComTradeToDo.iml" filepath="C:\Users\CODE\Desktop\danas\comtradeandroidhomeworks\ComTradeToDo\ComTradeToDo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\CODE\Desktop\danas\comtradeandroidhomeworks\ComTradeToDo\app\app.iml" filepath="C:\Users\CODE\Desktop\danas\comtradeandroidhomeworks\ComTradeToDo\app\app.iml" />
     </modules>
   </component>
 </project>

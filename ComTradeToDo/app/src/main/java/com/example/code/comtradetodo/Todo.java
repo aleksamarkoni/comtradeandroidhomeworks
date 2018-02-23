@@ -15,9 +15,10 @@ public class Todo implements Parcelable {
         this.title = title;
     }
 
-    public Todo(String title, boolean isDone) {
+    public Todo(String title, boolean isDone, int databaseId) {
         this.title = title;
         this.isDone = isDone;
+        this.databaseId = databaseId;
     }
 
     public int getDatabaseId() {

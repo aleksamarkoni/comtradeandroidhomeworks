@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
@@ -31,7 +33,6 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
     private static final String TODO_LIST_BUNDLE_KEY = "todo_list_bundle_key";
     private static final int ADD_EDIT_ACTIVITY_REQUEST_CODE = 10;
     private static final String TAG = TodoListActivity.class.getSimpleName();
-    String todoVreme;
     private ArrayList<Todo> todoList;
     private RecyclerView recyclerView;
     private TodoAdapter todoAdapter;
@@ -45,6 +46,8 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         todoDatabaseHelper = new TodoDatabaseHelper(this);
         database = todoDatabaseHelper.getWritableDatabase();
 
@@ -54,6 +57,10 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         if (savedInstanceState == null) {
             readTodosFromDatabase();
             todoAdapter = new TodoAdapter(todoList, this);
+            ItemTouchHelper.Callback callback =
+                    new SimpleItemTouchHelperCallback(todoAdapter);
+            ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+            touchHelper.attachToRecyclerView(recyclerView);
             recyclerView.setAdapter(todoAdapter);
         }
 
@@ -67,6 +74,9 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
             }
         });
     }
+
+
+
 
     @Override
     protected void onDestroy() {
@@ -86,9 +96,8 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         while (cursor.moveToNext()) {
             String title = cursor.getString(cursor.getColumnIndexOrThrow(TodoContract.Todo.TITLE));
             int done = cursor.getInt(cursor.getColumnIndexOrThrow(TodoContract.Todo.DONE));
-            Todo todo = new Todo(title, done == 1);
-            //TODO izvuci id is cursora i setovati id u todo, 1 poen
-            //TODO izvuci description is databas-a i postaviti na todo item
+            long databaseId = cursor.getLong(cursor.getColumnIndexOrThrow(TodoContract.Todo._ID));
+            Todo todo = new Todo(title, done == 1, (int) databaseId);
             todoList.add(todo);
         }
         cursor.close();
@@ -176,10 +185,33 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
 
     @Override
     public void onDoneClicked(Todo todo) {
-        //TODO pokusati da updejtujete item u databasu.
-        //TODO creirati novi ContentsValue u njega ubaciti nove vrednosti
-        //TODO i onda pozvati database.update(....)
-        //TODO https://developer.android.com/training/data-storage/sqlite.html#WriteDbRow
-        //TODO poena 5
+
+        ContentValues values = new ContentValues();
+        values.put(TodoContract.Todo.DONE, todo.isDone() ? 1 : 0 );
+
+        SQLiteDatabase db = todoDatabaseHelper.getWritableDatabase();
+
+
+// Which row to update, based on the title
+        String selection = TodoContract.Todo._ID + " = ? ";
+        String[] selectionArgs = { "" + todo.getDatabaseId() };
+
+        int count = db.update(
+                TodoContract.Todo.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
+    @Override
+    public void onItemRemoved(int databaseId) {
+
+        SQLiteDatabase db = todoDatabaseHelper.getWritableDatabase();
+
+        String selection = TodoContract.Todo._ID + " = ?";
+// Specify arguments in placeholder order.
+        String[] selectionArgs = { "" + databaseId };
+// Issue SQL statement.
+        db.delete(TodoContract.Todo.TABLE_NAME, selection, selectionArgs);
     }
 }
