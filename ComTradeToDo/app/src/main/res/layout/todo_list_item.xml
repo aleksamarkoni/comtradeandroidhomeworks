@@ -8,35 +8,49 @@
     android:layout_height="wrap_content">
 
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintDimensionRatio="w,9:16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <CheckBox
         android:id="@+id/todo_done_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/todo_opis"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/todo_title" />
 
 
     <TextView
         android:id="@+id/todo_title"
         android:layout_width="0dp"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="100dp"
         android:layout_marginStart="50dp"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:hint="Title"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/todo_opis"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/todo_opis"
@@ -45,32 +59,29 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
-        android:maxLines="1"
         android:ellipsize="end"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
-        tools:text="Opis"
+        android:maxLines="1"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/todo_title"
-        app:layout_constraintVertical_bias="0.0" />
+        tools:text="Opis" />
 
     <TextView
         android:id="@+id/todo_vreme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        tools:text="vreme"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/todo_opis"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/todo_title"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:text="vreme" />
 
 
 </android.support.constraint.ConstraintLayout>

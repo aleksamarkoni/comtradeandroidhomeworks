@@ -6,7 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.code.comtradetodo.Utils.DecodePictureAsyncTask;
 
 import java.util.Collections;
 import java.util.List;
@@ -57,6 +60,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         if (todo.shouldStartAlarm()) {
             String text = holder.itemView.getContext().getString(R.string.alarm_format, todo.getAlarmHour(), todo.getAlarmMin());
             holder.vremeTextView.setText(text);
+
+            new DecodePictureAsyncTask(holder.imageView)
         }
     }
 
@@ -70,6 +75,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         private TextView opisTextView;
         private TextView vremeTextView;
         private CheckBox isDoneCheckBox;
+        private ImageView imageView;
         //TODO dodati link za TextView koji prikazuje vremene 0 poena
 
         public TodoViewHolder(View itemView) {
@@ -78,6 +84,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
             titleTextView = itemView.findViewById(R.id.todo_title);
             opisTextView = itemView.findViewById(R.id.todo_opis);
             vremeTextView = itemView.findViewById(R.id.todo_vreme);
+            imageView = itemView.findViewById(R.id.todoPicture);
         }
     }
 

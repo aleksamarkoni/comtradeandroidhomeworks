@@ -10,6 +10,7 @@ public class Todo implements Parcelable {
     private boolean isDone;
     private int alarmHour;
     private int alarmMin;
+    private String pictureFileUri;
 
     public Todo(String title) {
         this.title = title;
@@ -76,6 +77,7 @@ public class Todo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.pictureFileUri);
         dest.writeInt(this.databaseId);
         dest.writeString(this.title);
         dest.writeString(this.description);
@@ -84,7 +86,17 @@ public class Todo implements Parcelable {
         dest.writeInt(this.alarmMin);
     }
 
+    public void setPictureFileUri(String pictureFileUri) {
+        this.pictureFileUri = pictureFileUri;
+    }
+
+    public String getPictureFileUri() {
+        return pictureFileUri;
+
+    }
+
     protected Todo(Parcel in) {
+        this.pictureFileUri = in.readString();
         this.databaseId = in.readInt();
         this.title = in.readString();
         this.description = in.readString();
