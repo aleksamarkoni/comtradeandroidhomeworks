@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.code.comtradetodo.Utils.DecodePictureAsyncTask;
 import com.example.code.comtradetodo.Utils.ItemTouchHelperAdapter;
 
 import java.util.Collections;
@@ -75,6 +78,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         holder.titleTextView.setText(todo.getTitle());
         holder.isDoneCheckBox.setTag(position);
         holder.isDoneCheckBox.setChecked(todo.isDone());
+        if (todo.getPictureFileUri() != null) {
+            new DecodePictureAsyncTask(holder.imageView, holder.progressBar).execute(todo.getPictureFileUri());
+        } else {
+            holder.imageView.setVisibility(View.INVISIBLE);
+        }
         //TODO ovde podesiti vreme na text view, prvo proveriti da li uopste treba da se podesi vreme
         //TODO ako su hour i min i dalje -1, to znaci da ovaj todo nema notification time. 2 poena
     }
@@ -85,6 +93,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     }
 
     static class TodoViewHolder extends RecyclerView.ViewHolder {
+        private ImageView imageView;
+        private ProgressBar progressBar;
         private TextView titleTextView;
         private CheckBox isDoneCheckBox;
         //TODO dodati link za TextView koji prikazuje vremene 0 poena
@@ -93,6 +103,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
             super(itemView);
             isDoneCheckBox = itemView.findViewById(R.id.todo_done_checkbox);
             titleTextView = itemView.findViewById(R.id.todo_title);
+            imageView = itemView.findViewById(R.id.todoPicture);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 }
