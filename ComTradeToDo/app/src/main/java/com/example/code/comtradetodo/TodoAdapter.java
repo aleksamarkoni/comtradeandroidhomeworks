@@ -20,9 +20,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
 
     private List<Todo> todoList;
     private OnTodoDoneListener onTodoDoneListener;
+    private OnTodoSelected onTodoSelected;
 
-    public TodoAdapter(List<Todo> todoList, OnTodoDoneListener onTodoDoneListener) {
+    public TodoAdapter(List<Todo> todoList,
+                       OnTodoDoneListener onTodoDoneListener,
+                       OnTodoSelected onTodoSelected) {
         this.todoList = todoList;
+        this.onTodoSelected = onTodoSelected;
         this.onTodoDoneListener = onTodoDoneListener;
     }
 
@@ -69,7 +73,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
             }
         });
 
-        return new TodoAdapter.TodoViewHolder(view);
+        return new TodoAdapter.TodoViewHolder(view, new OnTodoClick() {
+            @Override
+            public void onTodoClicked(int position) {
+                Todo todo = todoList.get(position);
+                onTodoSelected.onTodoSelected(todo);
+            }
+        });
     }
 
     @Override
@@ -97,14 +107,30 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         private ProgressBar progressBar;
         private TextView titleTextView;
         private CheckBox isDoneCheckBox;
+        private OnTodoClick onTodoClick;
         //TODO dodati link za TextView koji prikazuje vremene 0 poena
 
-        public TodoViewHolder(View itemView) {
+        public TodoViewHolder(View itemView, final OnTodoClick onTodoClick) {
             super(itemView);
+            this.onTodoClick = onTodoClick;
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onTodoClick.onTodoClicked(getAdapterPosition());
+                }
+            });
             isDoneCheckBox = itemView.findViewById(R.id.todo_done_checkbox);
             titleTextView = itemView.findViewById(R.id.todo_title);
             imageView = itemView.findViewById(R.id.todoPicture);
             progressBar = itemView.findViewById(R.id.progressBar);
         }
+    }
+
+    public interface OnTodoClick {
+        void onTodoClicked(int position);
+    }
+
+    public interface OnTodoSelected {
+        void onTodoSelected(Todo todo);
     }
 }

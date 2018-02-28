@@ -29,7 +29,7 @@ import org.threeten.bp.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class TodoListActivity extends AppCompatActivity implements TodoAdapter.OnTodoDoneListener {
+public class TodoListActivity extends AppCompatActivity implements TodoAdapter.OnTodoDoneListener, TodoAdapter.OnTodoSelected {
 
     private static final String TODO_LIST_BUNDLE_KEY = "todo_list_bundle_key";
     private static final int ADD_EDIT_ACTIVITY_REQUEST_CODE = 10;
@@ -57,7 +57,7 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
 
         if (savedInstanceState == null) {
             readTodosFromDatabase();
-            todoAdapter = new TodoAdapter(todoList, this);
+            todoAdapter = new TodoAdapter(todoList, this, this);
             ItemTouchHelper.Callback callback =
                     new SimpleItemTouchHelperCallback(todoAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
@@ -124,7 +124,6 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
-
     }
 
     private long addTodoToDatabase(Todo todo) {
@@ -132,7 +131,6 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
         contentValues.put(TodoContract.Todo.TITLE, todo.getTitle());
         contentValues.put(TodoContract.Todo.DONE, todo.isDone() ? 1 : 0);
         contentValues.put(TodoContract.Todo.DESCRIPTION, todo.getDescription());
-
         return database.insert(TodoContract.Todo.TABLE_NAME, null, contentValues);
     }
 
@@ -152,7 +150,7 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            todoAdapter = new TodoAdapter(todoList, this);
+            todoAdapter = new TodoAdapter(todoList, this, this);
             recyclerView.setAdapter(todoAdapter);
         }
     }
@@ -202,5 +200,12 @@ public class TodoListActivity extends AppCompatActivity implements TodoAdapter.O
 
         SQLiteDatabase db = todoDatabaseHelper.getWritableDatabase();
         db.delete(TodoContract.Todo.TABLE_NAME, selection, selectionArgs);
+    }
+
+    @Override
+    public void onTodoSelected(Todo todo) {
+        Intent intent = new Intent(this, AddEditTodoActivity.class);
+        intent.putExtra("todo_to_edit", todo);
+        startActivityForResult(intent, ADD_EDIT_ACTIVITY_REQUEST_CODE);
     }
 }

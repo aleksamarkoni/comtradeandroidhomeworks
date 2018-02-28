@@ -56,8 +56,8 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
         setContentView(R.layout.activity_add_edit_todo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        hour = -1;
-        min = -1;
+
+
 
         final TextView textView = findViewById(R.id.edit_text_add_edit_activity_title_text_view);
         alarmTextView = findViewById(R.id.alarm_time_edit_text);
@@ -101,6 +101,21 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
                 checkForPermission();
             }
         });
+
+        Todo todo = getIntent().getParcelableExtra("todo_to_edit");
+        if (todo != null) {
+            hour = todo.getAlarmHour();
+            min = todo.getAlarmMin();
+            textView.setText(todo.getTitle());
+            setAlarmTextViewTime();
+            if (todo.getPictureFileUri() != null) {
+                new DecodePictureAsyncTask(imageView, progressBar).execute(todo.getPictureFileUri() );
+            }
+        } else {
+            hour = -1;
+            min = -1;
+        }
+
     }
 
     private void checkForPermission() {
@@ -180,6 +195,10 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
         this.hour = hour;
         this.min = min;
         Log.d(TAG, "Izabrao vreme: " + hour + " " + min);
+        setAlarmTextViewTime();
+    }
+
+    public void setAlarmTextViewTime() {
         String text = getString(R.string.alarm_time, hour, min);
         alarmTextView.setText(text);
     }
@@ -230,6 +249,8 @@ public class AddEditTodoActivity extends AppCompatActivity implements TimePicker
             String fileName = urls[0];
             int targetW = imageView.getWidth();
             int targetH = imageView.getHeight();
+            targetW = targetW == 0 ? 1 : targetW;
+            targetH = targetH == 0 ? 1 : targetH;
 
             // Get the dimensions of the bitmap
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();

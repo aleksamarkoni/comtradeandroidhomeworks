@@ -28,6 +28,8 @@ public class DecodePictureAsyncTask extends AsyncTask<String, Void, Bitmap> {
         String fileName = urls[0];
         int targetW = imageView.getWidth();
         int targetH = imageView.getHeight();
+        targetW = targetW == 0 ? 1 : targetW;
+        targetH = targetH == 0 ? 1 : targetH;
 
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
