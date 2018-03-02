@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/VezbaSaIntentima.iml" filepath="$PROJECT_DIR$/VezbaSaIntentima.iml" />
+      <module fileurl="file://C:\Users\Dell.Dell-PC\Desktop\najnovo\comtradeandroidhomeworks\VezbaSaIntentima\VezbaSaIntentima.iml" filepath="C:\Users\Dell.Dell-PC\Desktop\najnovo\comtradeandroidhomeworks\VezbaSaIntentima\VezbaSaIntentima.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Dell.Dell-PC\Desktop\najnovo\comtradeandroidhomeworks\VezbaSaIntentima\app\app.iml" filepath="C:\Users\Dell.Dell-PC\Desktop\najnovo\comtradeandroidhomeworks\VezbaSaIntentima\app\app.iml" />
     </modules>
   </component>
 </project>
