@@ -19,6 +19,7 @@
         android:textOff=""
         android:textOn=""
         android:textColor="#FFFFFF"
+        android:textSize="36sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/nextThrow"
         app:layout_constraintEnd_toStartOf="@+id/dice2" />
@@ -36,6 +37,7 @@
         android:text=""
         android:textOff=""
         android:textOn=""
+        android:textSize="36sp"
         app:layout_constraintStart_toEndOf="@id/dice1"
         app:layout_constraintBottom_toTopOf="@+id/nextThrow"
         app:layout_constraintEnd_toStartOf="@+id/dice3" />
@@ -53,6 +55,7 @@
         android:text=""
         android:textOff=""
         android:textOn=""
+        android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/nextThrow"
         app:layout_constraintEnd_toStartOf="@+id/dice4"
         app:layout_constraintStart_toEndOf="@+id/dice2" />
@@ -70,6 +73,7 @@
         android:text=""
         android:textOff=""
         android:textOn=""
+        android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/nextThrow"
         app:layout_constraintEnd_toStartOf="@+id/dice5"
         app:layout_constraintStart_toEndOf="@+id/dice3" />
@@ -87,6 +91,7 @@
         android:text=""
         android:textOff=""
         android:textOn=""
+        android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/nextThrow"
         app:layout_constraintEnd_toStartOf="@+id/dice6"
         app:layout_constraintStart_toEndOf="@+id/dice4" />
@@ -104,6 +109,7 @@
         android:text=""
         android:textOff=""
         android:textOn=""
+        android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/nextThrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dice5" />
