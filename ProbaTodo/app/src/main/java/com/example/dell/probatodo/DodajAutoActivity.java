@@ -44,6 +44,7 @@ public class DodajAutoActivity extends AppCompatActivity {
     ImageButton imageButton;
     ConstraintLayout layout;
     private String mCurrentPhotoPath;
+    ImageButton boja;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
