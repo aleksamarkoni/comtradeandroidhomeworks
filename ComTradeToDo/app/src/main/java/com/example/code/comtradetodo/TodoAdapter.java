@@ -109,7 +109,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         private CheckBox isDoneCheckBox;
         private OnTodoClick onTodoClick;
         //TODO dodati link za TextView koji prikazuje vremene 0 poena
-
         public TodoViewHolder(View itemView, final OnTodoClick onTodoClick) {
             super(itemView);
             this.onTodoClick = onTodoClick;
@@ -125,7 +124,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
             progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
-
     public interface OnTodoClick {
         void onTodoClicked(int position);
     }
